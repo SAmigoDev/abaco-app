@@ -1,0 +1,17 @@
+# Configuración de Supabase para el proyecto Ábaco
+
+[functions]
+# Variables de entorno compartidas por todas las funciones
+env = {
+  MINDICADOR_API_URL = "https://mindicador.cl/api"
+}
+
+[functions.transacciones]
+verify_jwt = true
+
+[functions.cron-divisas]
+verify_jwt = false
+schedule = "0 1 * * *"
+
+[functions.verificar-suscripcion]
+verify_jwt = false
