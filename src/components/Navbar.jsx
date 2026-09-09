@@ -30,6 +30,7 @@ export default function Navbar() {
             <Link
               key={e.href}
               href={e.href}
+              prefetch={false}
               className={`px-3 py-1.5 rounded-lg text-sm ${
                 pathname === e.href ? 'bg-navy-700 text-offwhite' : 'text-navy-400 hover:text-offwhite'
               }`}
