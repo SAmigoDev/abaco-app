@@ -1,5 +1,11 @@
 # Libro de movimientos fase008 y plan de activación
 
+## Actualización: validación en staging del 22 de noviembre de 2026
+
+Por autorización posterior se instaló la 008 exacta de f319928 en **abaco-staging (bikubreyffppuxfxzxew)**. Sigue inactiva: el motor vigente es el único escritor de saldo. No hubo aperturas en las cuentas originales ni cambios de producción, cron, web o Edge. Se comprobaron preservación de datos, permisos, RLS/MFA real y concurrencia; volumen y bloqueos intensivos se probaron exclusivamente en PostgreSQL local.
+
+Resultados y límites actuales: [VALIDACION_008_STAGING_VOLUMEN_2026-11-22.md](./VALIDACION_008_STAGING_VOLUMEN_2026-11-22.md). Las secciones siguientes conservan la entrega local histórica y su plan de activación pendiente; sus menciones a «no aplicado» corresponden al estado anterior a esta autorización. Esta validación no activa el libro.
+
 ## Estado para revisión del22 de noviembre de2026
 
 **Solo local. No aplicado a Supabase staging ni producción; sin despliegue web/Edge ni push. Cierre mediante commit local dedicado.** Base: commit91d3f4631e18f09334e69e4543f488f810b63702 y trabajo local previo001→006 conservado.007 sigue siendo protección de edición de cuentas.008 es una expansión inactiva de ensayo: el motor actual permanece como único escritor de saldo. No se implementa conciliación ni importación.
