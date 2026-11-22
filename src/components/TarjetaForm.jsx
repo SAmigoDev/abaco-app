@@ -1,5 +1,6 @@
 'use client';
 
+import { datosCuenta } from '@/lib/datosCuenta.mjs';
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -50,16 +51,7 @@ export default function TarjetaForm({ tarjetaExistente = null, onGuardado, onCan
     setGuardando(true);
     setError(null);
 
-    const payload = {
-      alias: form.alias,
-      ultimos_digitos: form.ultimos_digitos,
-      tipo_producto: form.tipo_producto,
-      moneda: form.moneda,
-      saldo_actual: Number(form.saldo_actual) || 0,
-      cupo_maximo: requiereCupo ? Number(form.cupo_maximo) || null : null,
-      dia_corte: requiereFechasFacturacion ? Number(form.dia_corte) || null : null,
-      dia_pago: requiereFechasFacturacion ? Number(form.dia_pago) || null : null,
-    };
+    const payload = datosCuenta(form, esEdicion);
 
     let resultado;
     if (esEdicion) {
@@ -96,10 +88,14 @@ export default function TarjetaForm({ tarjetaExistente = null, onGuardado, onCan
         {TIPOS_PRODUCTO.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
       </select>
 
-      <label className="block text-navy-400 text-xs mb-1">Saldo actual ({form.moneda})</label>
+      {!esEdicion && <>
+      <label className="block text-navy-400 text-xs mb-1">Saldo inicial ({form.moneda})</label>
       <input required type="number" step="0.01" value={form.saldo_actual}
         onChange={(e) => actualizarCampo('saldo_actual', e.target.value)}
         className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm mb-3 outline-none focus:border-gold" />
+
+      </>}
+      {esEdicion && <p className="text-navy-400 text-xs mb-3">Esta edición no modifica el saldo. Los gastos registrados conservan su efecto.</p>}
 
       {requiereCupo && (
         <>
