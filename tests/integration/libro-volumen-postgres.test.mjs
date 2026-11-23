@@ -85,7 +85,7 @@ test('008 benchmark local sintetico de constraint', {skip:!habilitado},async t=>
   }
   const start=performance.now();await ejecutar(await readFile(new URL('../../supabase/migrations/202611220008_libro_ensayo.sql',import.meta.url),'utf8'));
   const output={postgres:await ejecutar('select version()'),synthetic:true,accounts:1000,owners:1,results,fullMigrationAtMillionWallMs:performance.now()-start};
-  const {writeFile}=await import('node:fs/promises');await writeFile('C:/Users/tatan/Documents/Codex/2026-11-13/esd/work/008-volume-result.json',JSON.stringify(output,null,2));console.log(JSON.stringify(output));
+  const {writeFile}=await import('node:fs/promises');await writeFile(process.env.ABACO_008_VOLUME_RESULT_FILE||path.join(dataDir,'..','008-volume-result.json'),JSON.stringify(output,null,2));console.log(JSON.stringify(output));
  } finally {
   // Only the unique database created by this run, on the verified disposable cluster.
   await sql('drop database '+nombre+' with (force);');

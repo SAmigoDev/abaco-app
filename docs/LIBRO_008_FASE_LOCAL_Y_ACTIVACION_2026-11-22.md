@@ -1,5 +1,7 @@
 # Libro de movimientos fase008 y plan de activación
 
+Reproducibilidad cerrada el 23 de noviembre de 2026: dependencias SQL y helpers incorporados; 13 pruebas funcionales y 1 de volumen desde checkout limpio. Ver [requisitos y evidencia](./REPRODUCIBILIDAD_008_2026-11-23.md). No cambia el estado inactivo ni autoriza activación.
+
 ## Actualización: validación en staging del 22 de noviembre de 2026
 
 Por autorización posterior se instaló la 008 exacta de f319928 en **abaco-staging (bikubreyffppuxfxzxew)**. Sigue inactiva: el motor vigente es el único escritor de saldo. No hubo aperturas en las cuentas originales ni cambios de producción, cron, web o Edge. Se comprobaron preservación de datos, permisos, RLS/MFA real y concurrencia; volumen y bloqueos intensivos se probaron exclusivamente en PostgreSQL local.

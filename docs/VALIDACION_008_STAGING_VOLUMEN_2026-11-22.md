@@ -1,5 +1,9 @@
 # Validación 008 en staging operativo y volumen local
 
+## Actualización de reproducibilidad · 23 de noviembre de 2026
+
+Se incorporan a Git los prerrequisitos SQL y helpers. Checkout limpio sin npm/.env: 13 pruebas funcionales y 1 de volumen aprobadas; clúster propio detenido. La limitación de dependencias sin versionar del cierre histórico bebd365 queda resuelta para 008. Ver [requisitos y evidencia](./REPRODUCIBILIDAD_008_2026-11-23.md). Esta entrega no contacta con Supabase ni cambia el estado inactivo o el motor. Los resultados siguientes son históricos.
+
 ## Cierre con ejecución de las versiones finales · 22 de noviembre de 2026
 
 El test alojado final terminó con **6 pruebas/subpruebas aprobadas, 0 fallidas y 0 omitidas**, en **27.966,564 ms** (primera ejecución reutilizada: 26.708,796 ms; repetición final tras normalizar el EOF: 27.966,564 ms). Esta ejecución incluye el cierre defensivo dentro del propio test y sus comprobaciones de revocación, rol usuario, bloqueo de login y ausencia de sesiones. Sustituye el pendiente anterior de volver a ejecutar la versión modificada.

@@ -1,0 +1,63 @@
+{
+  "postgres": "PostgreSQL 18.4 on x86_64-windows, compiled by msvc-19.44.35227, 64-bit",
+  "synthetic": true,
+  "accounts": 1000,
+  "owners": 1,
+  "results": [
+    {
+      "target": 100000,
+      "seedMs": 13587.5618,
+      "trials": [
+        {
+          "serverDdlMs": 217.824,
+          "indexBytes": 6791168,
+          "tableBytes": 135471104,
+          "rows": 100000,
+          "localWallMs": 477.27030000000013
+        },
+        {
+          "serverDdlMs": 303.165,
+          "indexBytes": 6791168,
+          "tableBytes": 135471104,
+          "rows": 100000,
+          "localWallMs": 443.6755000000012
+        },
+        {
+          "serverDdlMs": 194.215,
+          "indexBytes": 6791168,
+          "tableBytes": 135471104,
+          "rows": 100000,
+          "localWallMs": 323.293700000002
+        }
+      ]
+    },
+    {
+      "target": 1000000,
+      "seedMs": 242207.2412,
+      "trials": [
+        {
+          "serverDdlMs": 9088.142,
+          "indexBytes": 67690496,
+          "tableBytes": 1232388096,
+          "rows": 1000000,
+          "localWallMs": 9912.751199999999
+        },
+        {
+          "serverDdlMs": 2312.64,
+          "indexBytes": 67690496,
+          "tableBytes": 1232388096,
+          "rows": 1000000,
+          "localWallMs": 2668.6087999999872
+        },
+        {
+          "serverDdlMs": 1931.278,
+          "indexBytes": 67690496,
+          "tableBytes": 1232388096,
+          "rows": 1000000,
+          "localWallMs": 2193.013099999982
+        }
+      ]
+    }
+  ],
+  "fullMigrationAtMillionWallMs": 3217.204299999983
+}
