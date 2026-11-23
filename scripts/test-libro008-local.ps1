@@ -3,7 +3,9 @@ param(
     [Parameter(Mandatory = $true)][string]$PostgresBin,
     [string]$WorkRoot = (Join-Path ([IO.Path]::GetTempPath()) ('abaco008-' + [guid]::NewGuid().ToString('N'))),
     [ValidateRange(50000, 59999)][int]$Port = 55441,
-    [switch]$IncludeVolume
+    [switch]$IncludeVolume,
+    [switch]$Include009,
+    [switch]$Include009Performance
 )
 
 # Windows, synthetic PostgreSQL only. No npm, Supabase CLI, network API or .env required.
@@ -28,7 +30,7 @@ try { $listener.Start() } finally { $listener.Stop() }
 
 $dataDir = Join-Path $testRoot 'work\staging-pg\data'
 $logFile = Join-Path $testRoot 'postgres.log'
-$names = @('ABACO_SQL_TEST_ACK', 'ABACO_TEST_PG_BIN', 'ABACO_TEST_PG_DATA', 'ABACO_TEST_PG_PORT', 'ABACO_008_VOLUME_RESULT_FILE')
+$names = @('ABACO_SQL_TEST_ACK', 'ABACO_TEST_PG_BIN', 'ABACO_TEST_PG_DATA', 'ABACO_TEST_PG_PORT', 'ABACO_008_VOLUME_RESULT_FILE', 'ABACO_009_PERF_ACK', 'ABACO_009_PERF_PHASE', 'ABACO_009_PERF_RESULT_FILE')
 $previous = @{}
 foreach ($name in $names) { $previous[$name] = [Environment]::GetEnvironmentVariable($name, 'Process') }
 $started = $false
@@ -48,6 +50,17 @@ try {
     Set-Location -LiteralPath $repoRoot
     & $node --test tests/integration/libro-ensayo-postgres.test.mjs
     if ($LASTEXITCODE -ne 0) { throw 'Suite funcional 008 fallida.' }
+    if ($Include009 -or $Include009Performance) {
+        & $node --test tests/integration/libro-escritor-postgres.test.mjs
+        if ($LASTEXITCODE -ne 0) { throw 'Suite funcional 009 fallida.' }
+    }
+    if ($Include009Performance) {
+        $env:ABACO_009_PERF_ACK = 'operational-history-only'
+        $env:ABACO_009_PERF_PHASE = 'comparison'
+        $env:ABACO_009_PERF_RESULT_FILE = Join-Path $testRoot '009-performance.json'
+        & $node --test tests/integration/libro-rendimiento-postgres.test.mjs
+        if ($LASTEXITCODE -ne 0) { throw 'Benchmark comparativo 009 fallido.' }
+    }
     if ($IncludeVolume) {
         & $node --test tests/integration/libro-volumen-postgres.test.mjs
         if ($LASTEXITCODE -ne 0) { throw 'Benchmark 008 fallido.' }

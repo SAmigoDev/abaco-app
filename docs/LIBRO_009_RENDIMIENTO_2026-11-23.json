@@ -1,0 +1,1625 @@
+{
+  "date": "2026-11-23",
+  "scope": "local synthetic PostgreSQL only; not hosted capacity",
+  "initialExperiment": {
+    "phase": "initial-original",
+    "synthetic": true,
+    "levels": [
+      {
+        "targetPerAccount": 0,
+        "preparationWallMs": 532.4683,
+        "methods": {
+          "original": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  0
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 41.668,
+                      "wallMs": 128.58860000000004
+                    },
+                    {
+                      "serverMs": 44.301,
+                      "wallMs": 133.98529999999982
+                    },
+                    {
+                      "serverMs": 40.936,
+                      "wallMs": 228.40570000000025
+                    },
+                    {
+                      "serverMs": 43.703,
+                      "wallMs": 132.5725999999995
+                    },
+                    {
+                      "serverMs": 42.469,
+                      "wallMs": 131.98559999999998
+                    }
+                  ],
+                  "medianMs": 42.469,
+                  "p95Ms": 44.301
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  0
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 38.081,
+                      "wallMs": 124.18199999999979
+                    },
+                    {
+                      "serverMs": 37.197,
+                      "wallMs": 121.74459999999999
+                    },
+                    {
+                      "serverMs": 38.259,
+                      "wallMs": 122.90359999999964
+                    },
+                    {
+                      "serverMs": 36.559,
+                      "wallMs": 117.10240000000067
+                    },
+                    {
+                      "serverMs": 38.753,
+                      "wallMs": 116.84450000000015
+                    }
+                  ],
+                  "medianMs": 38.081,
+                  "p95Ms": 38.753
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 31.548,
+                  "wallMs": 108.34550000000036
+                },
+                {
+                  "serverMs": 31.272,
+                  "wallMs": 110.88180000000011
+                },
+                {
+                  "serverMs": 31.468,
+                  "wallMs": 109.02899999999954
+                }
+              ],
+              "medianMs": 31.468,
+              "p95Ms": 31.548
+            }
+          }
+        }
+      },
+      {
+        "targetPerAccount": 1000,
+        "preparationWallMs": 1396.2582000000002,
+        "methods": {
+          "original": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  1000
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 42.602,
+                      "wallMs": 121.2514999999994
+                    },
+                    {
+                      "serverMs": 35.861,
+                      "wallMs": 121.49259999999958
+                    },
+                    {
+                      "serverMs": 39.775,
+                      "wallMs": 115.83929999999964
+                    },
+                    {
+                      "serverMs": 35.976,
+                      "wallMs": 118.59149999999954
+                    },
+                    {
+                      "serverMs": 36.73,
+                      "wallMs": 113.21259999999893
+                    }
+                  ],
+                  "medianMs": 36.73,
+                  "p95Ms": 42.602
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  1000
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 38.247,
+                      "wallMs": 124.36020000000099
+                    },
+                    {
+                      "serverMs": 38.032,
+                      "wallMs": 125.60490000000027
+                    },
+                    {
+                      "serverMs": 38.219,
+                      "wallMs": 118.51620000000003
+                    },
+                    {
+                      "serverMs": 35.914,
+                      "wallMs": 118.20639999999912
+                    },
+                    {
+                      "serverMs": 35.469,
+                      "wallMs": 112.76689999999871
+                    }
+                  ],
+                  "medianMs": 38.032,
+                  "p95Ms": 38.247
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 55.904,
+                  "wallMs": 132.94590000000062
+                },
+                {
+                  "serverMs": 54.771,
+                  "wallMs": 134.35179999999855
+                },
+                {
+                  "serverMs": 52.957,
+                  "wallMs": 134.38630000000012
+                }
+              ],
+              "medianMs": 54.771,
+              "p95Ms": 55.904
+            }
+          }
+        }
+      },
+      {
+        "targetPerAccount": 10000,
+        "preparationWallMs": 4964.4028,
+        "methods": {
+          "original": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  10000
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 39.383,
+                      "wallMs": 119.49799999999959
+                    },
+                    {
+                      "serverMs": 40.725,
+                      "wallMs": 117.40359999999964
+                    },
+                    {
+                      "serverMs": 39.493,
+                      "wallMs": 118.98220000000038
+                    },
+                    {
+                      "serverMs": 40.366,
+                      "wallMs": 119.85519999999997
+                    },
+                    {
+                      "serverMs": 39.818,
+                      "wallMs": 119.6247999999996
+                    }
+                  ],
+                  "medianMs": 39.818,
+                  "p95Ms": 40.725
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  10000
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 45.852,
+                      "wallMs": 231.71349999999984
+                    },
+                    {
+                      "serverMs": 42.941,
+                      "wallMs": 130.65610000000015
+                    },
+                    {
+                      "serverMs": 40.274,
+                      "wallMs": 120.51230000000214
+                    },
+                    {
+                      "serverMs": 47.491,
+                      "wallMs": 132.27620000000024
+                    },
+                    {
+                      "serverMs": 41.718,
+                      "wallMs": 129.21830000000045
+                    }
+                  ],
+                  "medianMs": 42.941,
+                  "p95Ms": 47.491
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 268.976,
+                  "wallMs": 345.5581999999995
+                },
+                {
+                  "serverMs": 278.289,
+                  "wallMs": 363.8794999999991
+                },
+                {
+                  "serverMs": 271.437,
+                  "wallMs": 354.7466000000022
+                }
+              ],
+              "medianMs": 271.437,
+              "p95Ms": 278.289
+            }
+          }
+        }
+      },
+      {
+        "targetPerAccount": 100000,
+        "preparationWallMs": 53620.07010000001,
+        "methods": {
+          "original": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  100000
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 75.429,
+                      "wallMs": 154.33890000000247
+                    },
+                    {
+                      "serverMs": 69.94,
+                      "wallMs": 147.75290000000678
+                    },
+                    {
+                      "serverMs": 71.134,
+                      "wallMs": 150.52449999999953
+                    },
+                    {
+                      "serverMs": 71.191,
+                      "wallMs": 151.56620000000112
+                    },
+                    {
+                      "serverMs": 70.964,
+                      "wallMs": 149.02510000001348
+                    }
+                  ],
+                  "medianMs": 71.134,
+                  "p95Ms": 75.429
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  100000
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 72.418,
+                      "wallMs": 148.61149999999907
+                    },
+                    {
+                      "serverMs": 72.3,
+                      "wallMs": 151.2511000000086
+                    },
+                    {
+                      "serverMs": 69.725,
+                      "wallMs": 147.32360000000335
+                    },
+                    {
+                      "serverMs": 71.161,
+                      "wallMs": 149.37110000000393
+                    },
+                    {
+                      "serverMs": 74.508,
+                      "wallMs": 152.2225000000035
+                    }
+                  ],
+                  "medianMs": 72.3,
+                  "p95Ms": 74.508
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 3620.273,
+                  "wallMs": 3726.232600000003
+                },
+                {
+                  "serverMs": 3496.396,
+                  "wallMs": 3629.6757999999973
+                },
+                {
+                  "serverMs": 3510.363,
+                  "wallMs": 3609.4579999999987
+                }
+              ],
+              "medianMs": 3510.363,
+              "p95Ms": 3620.273
+            }
+          }
+        },
+        "concurrent": {
+          "original": {
+            "samples": [
+              {
+                "serverMs": 109.228,
+                "wallMs": 240.3130999999994
+              },
+              {
+                "serverMs": 172.606,
+                "wallMs": 300.00599999999395
+              },
+              {
+                "serverMs": 298.186,
+                "wallMs": 425.77820000000065
+              },
+              {
+                "serverMs": 223.801,
+                "wallMs": 353.5835999999981
+              },
+              {
+                "serverMs": 343.333,
+                "wallMs": 476.2616999999882
+              },
+              {
+                "serverMs": 396.551,
+                "wallMs": 532.9360000000015
+              },
+              {
+                "serverMs": 455.654,
+                "wallMs": 589.3219000000099
+              },
+              {
+                "serverMs": 514.866,
+                "wallMs": 644.4138000000094
+              }
+            ],
+            "medianMs": 320.7595,
+            "p95Ms": 514.866,
+            "wallMs": 826.2500999999902,
+            "distinctConnections": 8
+          }
+        }
+      }
+    ],
+    "environment": {
+      "postgres": "PostgreSQL 18.4 on x86_64-windows, compiled by msvc-19.44.35227, 64-bit",
+      "sharedBuffers": "32MB",
+      "workMem": "4MB",
+      "maintenanceWorkMem": "64MB",
+      "maxConnections": "20"
+    },
+    "migrationSha256": "3bf5a498c7446f4320aba3ba81110b33868ca3e9b18ee926413282a616188221"
+  },
+  "finalMatchedComparison": {
+    "phase": "matched-comparison",
+    "connections": "independent reused backends; transaction per sample",
+    "synthetic": true,
+    "levels": [
+      {
+        "targetPerAccount": 0,
+        "preparationWallMs": 643.0904,
+        "methods": {
+          "sum": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  0,
+                  18
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 4.019,
+                      "wallMs": 12.165500000000065
+                    },
+                    {
+                      "serverMs": 2.634,
+                      "wallMs": 10.981800000000021
+                    },
+                    {
+                      "serverMs": 3.253,
+                      "wallMs": 12.846700000000055
+                    },
+                    {
+                      "serverMs": 2.889,
+                      "wallMs": 10.951499999999669
+                    },
+                    {
+                      "serverMs": 5.563,
+                      "wallMs": 13.235799999999927
+                    },
+                    {
+                      "serverMs": 1.438,
+                      "wallMs": 9.221000000000458
+                    },
+                    {
+                      "serverMs": 1.406,
+                      "wallMs": 8.261999999999716
+                    },
+                    {
+                      "serverMs": 1.44,
+                      "wallMs": 8.020800000000236
+                    },
+                    {
+                      "serverMs": 1.463,
+                      "wallMs": 8.266899999999623
+                    },
+                    {
+                      "serverMs": 2.651,
+                      "wallMs": 11.367799999999988
+                    }
+                  ],
+                  "medianMs": 2.6425,
+                  "p95Ms": 5.563
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  0,
+                  18
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 4.169,
+                      "wallMs": 12.652599999999438
+                    },
+                    {
+                      "serverMs": 2.398,
+                      "wallMs": 9.819300000000112
+                    },
+                    {
+                      "serverMs": 2.4,
+                      "wallMs": 9.555299999999988
+                    },
+                    {
+                      "serverMs": 2.361,
+                      "wallMs": 9.828300000000127
+                    },
+                    {
+                      "serverMs": 5.03,
+                      "wallMs": 13.036700000000565
+                    },
+                    {
+                      "serverMs": 1.446,
+                      "wallMs": 8.064300000000003
+                    },
+                    {
+                      "serverMs": 1.507,
+                      "wallMs": 8.46980000000076
+                    },
+                    {
+                      "serverMs": 1.474,
+                      "wallMs": 8.120100000000093
+                    },
+                    {
+                      "serverMs": 1.491,
+                      "wallMs": 8.36369999999988
+                    },
+                    {
+                      "serverMs": 1.424,
+                      "wallMs": 7.881199999999808
+                    }
+                  ],
+                  "medianMs": 1.9340000000000002,
+                  "p95Ms": 5.03
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 5.626,
+                  "wallMs": 12.819499999999607
+                },
+                {
+                  "serverMs": 2.208,
+                  "wallMs": 9.736599999999271
+                },
+                {
+                  "serverMs": 2.784,
+                  "wallMs": 9.100000000000364
+                },
+                {
+                  "serverMs": 2.865,
+                  "wallMs": 9.95220000000063
+                }
+              ],
+              "medianMs": 2.8245,
+              "p95Ms": 5.626
+            }
+          },
+          "incremental": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  6,
+                  12
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 1.933,
+                      "wallMs": 9.595800000000054
+                    },
+                    {
+                      "serverMs": 1.827,
+                      "wallMs": 8.73779999999988
+                    },
+                    {
+                      "serverMs": 1.857,
+                      "wallMs": 9.497199999999793
+                    },
+                    {
+                      "serverMs": 1.808,
+                      "wallMs": 9.129100000000108
+                    },
+                    {
+                      "serverMs": 1.89,
+                      "wallMs": 8.825200000000223
+                    },
+                    {
+                      "serverMs": 1.583,
+                      "wallMs": 9.646600000000035
+                    },
+                    {
+                      "serverMs": 1.536,
+                      "wallMs": 8.404700000000048
+                    },
+                    {
+                      "serverMs": 1.686,
+                      "wallMs": 8.491299999999683
+                    },
+                    {
+                      "serverMs": 1.508,
+                      "wallMs": 8.746399999999994
+                    },
+                    {
+                      "serverMs": 1.599,
+                      "wallMs": 8.860700000000179
+                    }
+                  ],
+                  "medianMs": 1.7469999999999999,
+                  "p95Ms": 1.933
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  6,
+                  12
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 1.912,
+                      "wallMs": 9.372999999999593
+                    },
+                    {
+                      "serverMs": 1.787,
+                      "wallMs": 9.834899999999834
+                    },
+                    {
+                      "serverMs": 1.783,
+                      "wallMs": 8.669700000000375
+                    },
+                    {
+                      "serverMs": 1.754,
+                      "wallMs": 9.414700000000266
+                    },
+                    {
+                      "serverMs": 1.825,
+                      "wallMs": 8.565700000000106
+                    },
+                    {
+                      "serverMs": 1.947,
+                      "wallMs": 8.895500000000538
+                    },
+                    {
+                      "serverMs": 1.566,
+                      "wallMs": 8.168499999999767
+                    },
+                    {
+                      "serverMs": 1.912,
+                      "wallMs": 9.674700000000485
+                    },
+                    {
+                      "serverMs": 1.543,
+                      "wallMs": 8.056299999999283
+                    },
+                    {
+                      "serverMs": 1.614,
+                      "wallMs": 8.610999999999876
+                    }
+                  ],
+                  "medianMs": 1.785,
+                  "p95Ms": 1.947
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 2.25,
+                  "wallMs": 8.892499999999927
+                },
+                {
+                  "serverMs": 2.578,
+                  "wallMs": 9.188900000000103
+                },
+                {
+                  "serverMs": 2.684,
+                  "wallMs": 10.806899999999587
+                },
+                {
+                  "serverMs": 2.885,
+                  "wallMs": 10.149099999999635
+                }
+              ],
+              "medianMs": 2.6310000000000002,
+              "p95Ms": 2.885
+            }
+          }
+        }
+      },
+      {
+        "targetPerAccount": 1000,
+        "preparationWallMs": 1422.8251,
+        "methods": {
+          "sum": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  1000,
+                  1018
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 2.026,
+                      "wallMs": 8.528400000000147
+                    },
+                    {
+                      "serverMs": 2.076,
+                      "wallMs": 9.026499999999942
+                    },
+                    {
+                      "serverMs": 2.123,
+                      "wallMs": 9.058200000000397
+                    },
+                    {
+                      "serverMs": 1.98,
+                      "wallMs": 8.896900000000642
+                    },
+                    {
+                      "serverMs": 1.891,
+                      "wallMs": 8.732200000000375
+                    },
+                    {
+                      "serverMs": 1.74,
+                      "wallMs": 8.413099999999758
+                    },
+                    {
+                      "serverMs": 1.789,
+                      "wallMs": 9.003399999999601
+                    },
+                    {
+                      "serverMs": 1.801,
+                      "wallMs": 8.937700000000405
+                    },
+                    {
+                      "serverMs": 1.697,
+                      "wallMs": 8.252999999998792
+                    },
+                    {
+                      "serverMs": 1.706,
+                      "wallMs": 8.727999999999156
+                    }
+                  ],
+                  "medianMs": 1.846,
+                  "p95Ms": 2.123
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  1000,
+                  1018
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 2.568,
+                      "wallMs": 9.345699999999852
+                    },
+                    {
+                      "serverMs": 2.125,
+                      "wallMs": 9.648799999999937
+                    },
+                    {
+                      "serverMs": 1.997,
+                      "wallMs": 8.809599999999591
+                    },
+                    {
+                      "serverMs": 2.129,
+                      "wallMs": 9.919400000000678
+                    },
+                    {
+                      "serverMs": 2.01,
+                      "wallMs": 9.626399999999194
+                    },
+                    {
+                      "serverMs": 1.767,
+                      "wallMs": 10.044300000001385
+                    },
+                    {
+                      "serverMs": 1.907,
+                      "wallMs": 10.700600000000122
+                    },
+                    {
+                      "serverMs": 1.704,
+                      "wallMs": 9.481700000000274
+                    },
+                    {
+                      "serverMs": 1.824,
+                      "wallMs": 10.150700000000143
+                    },
+                    {
+                      "serverMs": 1.664,
+                      "wallMs": 8.061900000000605
+                    }
+                  ],
+                  "medianMs": 1.952,
+                  "p95Ms": 2.568
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 23.821,
+                  "wallMs": 31.70219999999972
+                },
+                {
+                  "serverMs": 24.499,
+                  "wallMs": 31.73949999999968
+                },
+                {
+                  "serverMs": 25.822,
+                  "wallMs": 36.709899999999834
+                },
+                {
+                  "serverMs": 27.562,
+                  "wallMs": 35.62719999999899
+                }
+              ],
+              "medianMs": 25.1605,
+              "p95Ms": 27.562
+            }
+          },
+          "incremental": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  1006,
+                  1012
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 1.855,
+                      "wallMs": 9.506499999999505
+                    },
+                    {
+                      "serverMs": 1.592,
+                      "wallMs": 8.859000000000378
+                    },
+                    {
+                      "serverMs": 1.704,
+                      "wallMs": 9.061200000000099
+                    },
+                    {
+                      "serverMs": 1.602,
+                      "wallMs": 9.045199999998658
+                    },
+                    {
+                      "serverMs": 1.616,
+                      "wallMs": 9.072700000000623
+                    },
+                    {
+                      "serverMs": 1.575,
+                      "wallMs": 8.737500000001091
+                    },
+                    {
+                      "serverMs": 1.656,
+                      "wallMs": 9.08849999999984
+                    },
+                    {
+                      "serverMs": 1.815,
+                      "wallMs": 8.41110000000117
+                    },
+                    {
+                      "serverMs": 1.674,
+                      "wallMs": 9.309199999999691
+                    },
+                    {
+                      "serverMs": 1.582,
+                      "wallMs": 9.33259999999973
+                    }
+                  ],
+                  "medianMs": 1.6360000000000001,
+                  "p95Ms": 1.855
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  1006,
+                  1012
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 1.746,
+                      "wallMs": 8.97479999999996
+                    },
+                    {
+                      "serverMs": 1.68,
+                      "wallMs": 8.840500000000247
+                    },
+                    {
+                      "serverMs": 1.682,
+                      "wallMs": 8.67200000000048
+                    },
+                    {
+                      "serverMs": 1.737,
+                      "wallMs": 8.40059999999903
+                    },
+                    {
+                      "serverMs": 1.602,
+                      "wallMs": 8.866499999998268
+                    },
+                    {
+                      "serverMs": 1.638,
+                      "wallMs": 8.839100000001054
+                    },
+                    {
+                      "serverMs": 1.551,
+                      "wallMs": 7.872199999999793
+                    },
+                    {
+                      "serverMs": 1.548,
+                      "wallMs": 8.314500000000407
+                    },
+                    {
+                      "serverMs": 1.59,
+                      "wallMs": 8.546200000000681
+                    },
+                    {
+                      "serverMs": 1.542,
+                      "wallMs": 8.871800000000803
+                    }
+                  ],
+                  "medianMs": 1.62,
+                  "p95Ms": 1.746
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 23.404,
+                  "wallMs": 30.511900000001333
+                },
+                {
+                  "serverMs": 23.89,
+                  "wallMs": 31.95850000000064
+                },
+                {
+                  "serverMs": 24.37,
+                  "wallMs": 32.230100000000675
+                },
+                {
+                  "serverMs": 25.247,
+                  "wallMs": 32.9336000000003
+                }
+              ],
+              "medianMs": 24.130000000000003,
+              "p95Ms": 25.247
+            }
+          }
+        }
+      },
+      {
+        "targetPerAccount": 10000,
+        "preparationWallMs": 4852.6335,
+        "methods": {
+          "sum": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  10000,
+                  10018
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 3.947,
+                      "wallMs": 10.537700000000768
+                    },
+                    {
+                      "serverMs": 3.944,
+                      "wallMs": 11.242699999998877
+                    },
+                    {
+                      "serverMs": 3.912,
+                      "wallMs": 10.369899999999689
+                    },
+                    {
+                      "serverMs": 3.909,
+                      "wallMs": 10.424299999998766
+                    },
+                    {
+                      "serverMs": 4.091,
+                      "wallMs": 11.209500000000844
+                    },
+                    {
+                      "serverMs": 3.542,
+                      "wallMs": 10.086100000000442
+                    },
+                    {
+                      "serverMs": 3.611,
+                      "wallMs": 10.30159999999887
+                    },
+                    {
+                      "serverMs": 3.502,
+                      "wallMs": 10.420500000000175
+                    },
+                    {
+                      "serverMs": 3.63,
+                      "wallMs": 10.407000000002881
+                    },
+                    {
+                      "serverMs": 3.685,
+                      "wallMs": 10.457899999997608
+                    }
+                  ],
+                  "medianMs": 3.7969999999999997,
+                  "p95Ms": 4.091
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  10000,
+                  10018
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 3.949,
+                      "wallMs": 10.739699999998265
+                    },
+                    {
+                      "serverMs": 3.859,
+                      "wallMs": 10.656999999999243
+                    },
+                    {
+                      "serverMs": 4.12,
+                      "wallMs": 11.35189999999966
+                    },
+                    {
+                      "serverMs": 4.192,
+                      "wallMs": 10.60989999999947
+                    },
+                    {
+                      "serverMs": 3.882,
+                      "wallMs": 10.462100000000646
+                    },
+                    {
+                      "serverMs": 3.762,
+                      "wallMs": 10.475900000001275
+                    },
+                    {
+                      "serverMs": 3.561,
+                      "wallMs": 10.057700000001205
+                    },
+                    {
+                      "serverMs": 3.861,
+                      "wallMs": 10.912700000000768
+                    },
+                    {
+                      "serverMs": 3.619,
+                      "wallMs": 10.138899999998102
+                    },
+                    {
+                      "serverMs": 3.606,
+                      "wallMs": 10.077400000001944
+                    }
+                  ],
+                  "medianMs": 3.8600000000000003,
+                  "p95Ms": 4.192
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 254.838,
+                  "wallMs": 262.04349999999977
+                },
+                {
+                  "serverMs": 232.618,
+                  "wallMs": 239.8006000000005
+                },
+                {
+                  "serverMs": 230.646,
+                  "wallMs": 238.90270000000237
+                },
+                {
+                  "serverMs": 232.84,
+                  "wallMs": 241.40269999999873
+                }
+              ],
+              "medianMs": 232.72899999999998,
+              "p95Ms": 254.838
+            }
+          },
+          "incremental": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  10006,
+                  10012
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 1.566,
+                      "wallMs": 8.202400000000125
+                    },
+                    {
+                      "serverMs": 1.659,
+                      "wallMs": 9.244200000001001
+                    },
+                    {
+                      "serverMs": 1.634,
+                      "wallMs": 8.190099999999802
+                    },
+                    {
+                      "serverMs": 1.601,
+                      "wallMs": 8.261000000000422
+                    },
+                    {
+                      "serverMs": 1.625,
+                      "wallMs": 8.774400000000242
+                    },
+                    {
+                      "serverMs": 1.623,
+                      "wallMs": 8.698100000001432
+                    },
+                    {
+                      "serverMs": 1.599,
+                      "wallMs": 8.448599999999715
+                    },
+                    {
+                      "serverMs": 1.54,
+                      "wallMs": 7.923500000000786
+                    },
+                    {
+                      "serverMs": 1.855,
+                      "wallMs": 8.748999999999796
+                    },
+                    {
+                      "serverMs": 1.556,
+                      "wallMs": 8.066399999999703
+                    }
+                  ],
+                  "medianMs": 1.612,
+                  "p95Ms": 1.855
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  10006,
+                  10012
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 2.16,
+                      "wallMs": 17.127800000000207
+                    },
+                    {
+                      "serverMs": 1.58,
+                      "wallMs": 8.042100000000573
+                    },
+                    {
+                      "serverMs": 1.574,
+                      "wallMs": 8.004000000000815
+                    },
+                    {
+                      "serverMs": 1.631,
+                      "wallMs": 7.89429999999993
+                    },
+                    {
+                      "serverMs": 1.919,
+                      "wallMs": 8.549199999999473
+                    },
+                    {
+                      "serverMs": 1.901,
+                      "wallMs": 9.593899999999849
+                    },
+                    {
+                      "serverMs": 1.538,
+                      "wallMs": 8.433400000001711
+                    },
+                    {
+                      "serverMs": 1.694,
+                      "wallMs": 8.447599999999511
+                    },
+                    {
+                      "serverMs": 1.569,
+                      "wallMs": 9.402999999998428
+                    },
+                    {
+                      "serverMs": 1.667,
+                      "wallMs": 8.315199999997276
+                    }
+                  ],
+                  "medianMs": 1.649,
+                  "p95Ms": 2.16
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 232.053,
+                  "wallMs": 239.4991000000009
+                },
+                {
+                  "serverMs": 231.392,
+                  "wallMs": 239.76900000000023
+                },
+                {
+                  "serverMs": 230.731,
+                  "wallMs": 238.77449999999953
+                },
+                {
+                  "serverMs": 235.286,
+                  "wallMs": 243.3714
+                }
+              ],
+              "medianMs": 231.7225,
+              "p95Ms": 235.286
+            }
+          }
+        }
+      },
+      {
+        "targetPerAccount": 100000,
+        "preparationWallMs": 70730.062,
+        "methods": {
+          "sum": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  100000,
+                  100018
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 26.19,
+                      "wallMs": 39.23949999999604
+                    },
+                    {
+                      "serverMs": 23.547,
+                      "wallMs": 32.255300000004354
+                    },
+                    {
+                      "serverMs": 24.297,
+                      "wallMs": 32.232499999998254
+                    },
+                    {
+                      "serverMs": 23.938,
+                      "wallMs": 32.65660000000207
+                    },
+                    {
+                      "serverMs": 23.363,
+                      "wallMs": 31.395100000008824
+                    },
+                    {
+                      "serverMs": 31.082,
+                      "wallMs": 45.31889999999839
+                    },
+                    {
+                      "serverMs": 23.793,
+                      "wallMs": 31.139400000000023
+                    },
+                    {
+                      "serverMs": 24.094,
+                      "wallMs": 31.882400000002235
+                    },
+                    {
+                      "serverMs": 23.539,
+                      "wallMs": 32.051699999996345
+                    },
+                    {
+                      "serverMs": 23.777,
+                      "wallMs": 31.79649999999674
+                    }
+                  ],
+                  "medianMs": 23.865499999999997,
+                  "p95Ms": 31.082
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  100000,
+                  100018
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 38.702,
+                      "wallMs": 55.1024999999936
+                    },
+                    {
+                      "serverMs": 32.677,
+                      "wallMs": 40.324500000002445
+                    },
+                    {
+                      "serverMs": 25.372,
+                      "wallMs": 33.11909999999625
+                    },
+                    {
+                      "serverMs": 24.055,
+                      "wallMs": 31.428999999989173
+                    },
+                    {
+                      "serverMs": 23.549,
+                      "wallMs": 30.551699999996345
+                    },
+                    {
+                      "serverMs": 38.343,
+                      "wallMs": 45.33310000000347
+                    },
+                    {
+                      "serverMs": 31.619,
+                      "wallMs": 40.30500000000757
+                    },
+                    {
+                      "serverMs": 25.311,
+                      "wallMs": 33.73380000000179
+                    },
+                    {
+                      "serverMs": 22.929,
+                      "wallMs": 30.92410000000382
+                    },
+                    {
+                      "serverMs": 24.41,
+                      "wallMs": 32.44810000000871
+                    }
+                  ],
+                  "medianMs": 25.3415,
+                  "p95Ms": 38.702
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 3533.473,
+                  "wallMs": 3567.936600000001
+                },
+                {
+                  "serverMs": 3720.962,
+                  "wallMs": 3728.809599999993
+                },
+                {
+                  "serverMs": 3916.721,
+                  "wallMs": 3937.011300000013
+                },
+                {
+                  "serverMs": 3871.039,
+                  "wallMs": 3879.0488000000187
+                }
+              ],
+              "medianMs": 3796.0005,
+              "p95Ms": 3916.721
+            }
+          },
+          "incremental": {
+            "expenses": {
+              "cash": {
+                "historiesBefore": [
+                  100006,
+                  100012
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 1.9,
+                      "wallMs": 8.993899999986752
+                    },
+                    {
+                      "serverMs": 2.049,
+                      "wallMs": 9.653999999994994
+                    },
+                    {
+                      "serverMs": 1.872,
+                      "wallMs": 8.670599999997648
+                    },
+                    {
+                      "serverMs": 1.933,
+                      "wallMs": 8.68630000000121
+                    },
+                    {
+                      "serverMs": 1.874,
+                      "wallMs": 8.856999999989057
+                    },
+                    {
+                      "serverMs": 2.051,
+                      "wallMs": 9.065700000006473
+                    },
+                    {
+                      "serverMs": 1.88,
+                      "wallMs": 8.720900000000256
+                    },
+                    {
+                      "serverMs": 2.086,
+                      "wallMs": 10.08289999999397
+                    },
+                    {
+                      "serverMs": 1.754,
+                      "wallMs": 8.318799999993644
+                    },
+                    {
+                      "serverMs": 1.786,
+                      "wallMs": 8.181799999991199
+                    }
+                  ],
+                  "medianMs": 1.89,
+                  "p95Ms": 2.086
+                }
+              },
+              "credit": {
+                "historiesBefore": [
+                  100006,
+                  100012
+                ],
+                "statistics": {
+                  "samples": [
+                    {
+                      "serverMs": 2.01,
+                      "wallMs": 9.75460000000021
+                    },
+                    {
+                      "serverMs": 1.865,
+                      "wallMs": 8.827699999994365
+                    },
+                    {
+                      "serverMs": 1.821,
+                      "wallMs": 8.59649999999965
+                    },
+                    {
+                      "serverMs": 1.865,
+                      "wallMs": 8.620599999994738
+                    },
+                    {
+                      "serverMs": 1.991,
+                      "wallMs": 9.15559999999823
+                    },
+                    {
+                      "serverMs": 1.883,
+                      "wallMs": 9.910900000002584
+                    },
+                    {
+                      "serverMs": 1.959,
+                      "wallMs": 8.909400000004098
+                    },
+                    {
+                      "serverMs": 1.792,
+                      "wallMs": 8.410700000007637
+                    },
+                    {
+                      "serverMs": 2.054,
+                      "wallMs": 9.10570000000007
+                    },
+                    {
+                      "serverMs": 1.735,
+                      "wallMs": 8.665099999998347
+                    }
+                  ],
+                  "medianMs": 1.874,
+                  "p95Ms": 2.054
+                }
+              }
+            },
+            "rebuild": {
+              "samples": [
+                {
+                  "serverMs": 3677.457,
+                  "wallMs": 3709.8858000000037
+                },
+                {
+                  "serverMs": 3528.708,
+                  "wallMs": 3537.4608000000007
+                },
+                {
+                  "serverMs": 3868.15,
+                  "wallMs": 3901.2304000000004
+                },
+                {
+                  "serverMs": 3807.939,
+                  "wallMs": 3845.6486000000004
+                }
+              ],
+              "medianMs": 3742.698,
+              "p95Ms": 3868.15
+            }
+          }
+        },
+        "concurrent": {
+          "sum": {
+            "samples": [
+              {
+                "serverMs": 168.744,
+                "wallMs": 188.8424000000232
+              },
+              {
+                "serverMs": 202.484,
+                "wallMs": 222.33240000001388
+              },
+              {
+                "serverMs": 234.071,
+                "wallMs": 252.54039999999804
+              },
+              {
+                "serverMs": 140.008,
+                "wallMs": 159.22970000002533
+              },
+              {
+                "serverMs": 109.573,
+                "wallMs": 128.44860000000335
+              },
+              {
+                "serverMs": 28.24,
+                "wallMs": 43.768699999985984
+              },
+              {
+                "serverMs": 56.47,
+                "wallMs": 72.37390000000596
+              },
+              {
+                "serverMs": 81.479,
+                "wallMs": 99.02529999997932
+              }
+            ],
+            "medianMs": 124.79050000000001,
+            "p95Ms": 234.071,
+            "historyBefore": 100032,
+            "wallMs": 398.8451000000059,
+            "distinctConnections": 8
+          },
+          "incremental": {
+            "samples": [
+              {
+                "serverMs": 40.421,
+                "wallMs": 62.04310000000987
+              },
+              {
+                "serverMs": 14.479,
+                "wallMs": 33.25479999999516
+              },
+              {
+                "serverMs": 28.814,
+                "wallMs": 48.86840000000666
+              },
+              {
+                "serverMs": 34.125,
+                "wallMs": 54.564199999993434
+              },
+              {
+                "serverMs": 6.372,
+                "wallMs": 23.06469999998808
+              },
+              {
+                "serverMs": 11.911,
+                "wallMs": 28.32819999998901
+              },
+              {
+                "serverMs": 46.552,
+                "wallMs": 67.99190000002272
+              },
+              {
+                "serverMs": 17.671,
+                "wallMs": 42.25789999999688
+              }
+            ],
+            "medianMs": 23.2425,
+            "p95Ms": 46.552,
+            "historyBefore": 100048,
+            "wallMs": 206.41289999999572,
+            "distinctConnections": 8
+          }
+        },
+        "plans": {
+          "nextSequence": {
+            "executionMs": 0.247,
+            "plan": {
+              "node": "Limit",
+              "rows": 1,
+              "loops": 1,
+              "sharedHit": 5,
+              "sharedRead": 0,
+              "children": [
+                {
+                  "node": "Index Only Scan",
+                  "index": "libro_secuencia_por_apertura",
+                  "rows": 1,
+                  "loops": 1,
+                  "sharedHit": 5,
+                  "sharedRead": 0
+                }
+              ]
+            }
+          },
+          "fullSum": {
+            "executionMs": 22.232,
+            "plan": {
+              "node": "Aggregate",
+              "rows": 1,
+              "loops": 1,
+              "sharedHit": 1420,
+              "sharedRead": 0,
+              "children": [
+                {
+                  "node": "Index Scan",
+                  "index": "libro_apuntes_apertura",
+                  "rows": 100057,
+                  "loops": 1,
+                  "sharedHit": 1420,
+                  "sharedRead": 0
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "environment": {
+      "postgres": "PostgreSQL 18.4 on x86_64-windows, compiled by msvc-19.44.35227, 64-bit",
+      "sharedBuffers": "32MB",
+      "workMem": "4MB",
+      "maintenanceWorkMem": "64MB",
+      "maxConnections": "20"
+    },
+    "migrationSha256": "79cb46ba5b3ffd97123cf315b349175a88e94947d5ac3731c8f3b113b98e59fa"
+  }
+}

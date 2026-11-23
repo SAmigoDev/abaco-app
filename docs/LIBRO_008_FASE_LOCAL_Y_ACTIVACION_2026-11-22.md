@@ -1,5 +1,7 @@
 # Libro de movimientos fase008 y plan de activación
 
+Siguiente fase 009 preparada **solo localmente**, sobre 81611e0: escritor único, proyección y ensayo de corte. No se aplicó al staging operativo. Ver [implementación, pruebas y procedimiento](./LIBRO_009_ESCRITOR_Y_CORTE_LOCAL_2026-11-23.md). Esta actualización no autoriza activar el libro alojado.
+
 Reproducibilidad cerrada el 23 de noviembre de 2026: dependencias SQL y helpers incorporados; 13 pruebas funcionales y 1 de volumen desde checkout limpio. Ver [requisitos y evidencia](./REPRODUCIBILIDAD_008_2026-11-23.md). No cambia el estado inactivo ni autoriza activación.
 
 ## Actualización: validación en staging del 22 de noviembre de 2026

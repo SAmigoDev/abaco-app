@@ -1,0 +1,63 @@
+{
+  "base": "81611e0c9b150050088a0fffecdbf029d09f07fd",
+  "reviewTree": "60b5d5eb99485cc098b2526fbfbf1cd0799ed90a",
+  "environment": {
+    "node": "v24.18.1",
+    "postgres": "18.4",
+    "platform": "Windows",
+    "sharedBuffers": "32MB",
+    "maxConnections": 20,
+    "auth": "local SQL simulation; no hosted JWT/TOTP/HTTP"
+  },
+  "regression008": {
+    "tests": 13,
+    "pass": 13,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 22467.9897
+  },
+  "writer009": {
+    "tests": 23,
+    "pass": 23,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 41554.6725
+  },
+  "performance009": {
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 145091.4671,
+    "result": "LIBRO_009_RENDIMIENTO_2026-11-23.json"
+  },
+  "nonSuperuserModel": {
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 5324.047,
+    "hosted": false,
+    "installer": "postgres NOSUPERUSER CREATEROLE CREATEDB NOBYPASSRLS"
+  },
+  "cleanCheckout": true,
+  "codeMatchesCheckout": true,
+  "nodeModules": false,
+  "envFiles": false,
+  "serverStopped": true,
+  "syntheticOnly": true,
+  "stagingChanges": false,
+  "productionChanges": false,
+  "sha256": {
+    "supabase/migrations/202611230009_escritor_financiero.sql": "79cb46ba5b3ffd97123cf315b349175a88e94947d5ac3731c8f3b113b98e59fa",
+    "supabase/tests/auditoria_libro009.sql": "485dd175cd4784329ecb7dc550fdc4a749b4af284c80765f89b5f3899e47b463",
+    "supabase/tests/ensayo_corte_libro009_local.sql": "78207557200add2f79f1f9a9bd632b67bd465868351060e926d0c33eb42d1a19",
+    "tests/integration/postgres-fixture.mjs": "27ac613d4c03b7513413a00cb4cf9a4e51f234b71450e2817000079054c29c60",
+    "tests/integration/libro-escritor-postgres.test.mjs": "81831c77551d5afe2643b85ae49ce83dfe11148889dc648f417eaa14e8de94b6",
+    "tests/integration/libro-rendimiento-postgres.test.mjs": "522151150c6d03b7e184519da9c9834c592a0606ff49105d51506871835bf514",
+    "tests/integration/libro-rol-administrado-postgres.test.mjs": "9e9f822fddf5c1d4b605413061bc3130d0772663f05049a73079ff2c9320ab86",
+    "tests/fixtures/libro009-proyector-suma.sql": "4697135a31fbccc1dd87777fcd206e37ceda83c07dd664d2e78204cc8bc2ff87",
+    "scripts/test-libro008-local.ps1": "6ff1686454e250f3a16b18979d4f844e676c7fa200ba3437e809086494d609c2",
+    "scripts/test-libro009-rol-local.ps1": "280e921750464fb9fe18079911af645be20a0d594dc2767e1898c29fcf5345bc"
+  }
+}
