@@ -20,7 +20,7 @@ function formDesdeTarjeta(t) {
     ultimos_digitos: t.ultimos_digitos,
     tipo_producto: t.tipo_producto,
     moneda: t.moneda,
-    saldo_actual: t.saldo_actual,
+    saldo_actual: t.saldo_actual ?? '',
     cupo_maximo: t.cupo_maximo ?? '',
     dia_corte: t.dia_corte ?? '',
     dia_pago: t.dia_pago ?? '',
@@ -90,10 +90,11 @@ export default function TarjetaForm({ tarjetaExistente = null, onGuardado, onCan
 
       {!esEdicion && <>
       <label className="block text-navy-400 text-xs mb-1">Saldo inicial ({form.moneda})</label>
-      <input required type="number" step="0.01" value={form.saldo_actual}
+      <input type="number" step="0.01" placeholder="Sin saldo definido" value={form.saldo_actual}
         onChange={(e) => actualizarCampo('saldo_actual', e.target.value)}
         className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm mb-3 outline-none focus:border-gold" />
 
+      <p className="text-navy-400 text-xs mb-3">Déjalo vacío si no conoces el saldo. Escribe 0 solo si el saldo es cero.</p>
       </>}
       {esEdicion && <p className="text-navy-400 text-xs mb-3">Esta edición no modifica el saldo. Los gastos registrados conservan su efecto.</p>}
 

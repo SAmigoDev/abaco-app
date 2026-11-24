@@ -1,3 +1,4 @@
+import { filaCuentaExportada } from './saldos.mjs';
 import * as XLSX from 'xlsx';
 
 export function exportarExcel({ transacciones, movimientosFijos, tarjetas, metas, mesLabel }) {
@@ -24,13 +25,7 @@ export function exportarExcel({ transacciones, movimientosFijos, tarjetas, metas
   }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(hojaFijos), 'Ingresos y Egresos Fijos');
 
-  const hojaTarjetas = tarjetas.map((t) => ({
-    Alias: t.alias,
-    Tipo: t.tipo_producto,
-    Saldo_Actual: t.saldo_actual,
-    Cupo_Maximo: t.cupo_maximo || '-',
-    Moneda: t.moneda,
-  }));
+  const hojaTarjetas = tarjetas.map(filaCuentaExportada);
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(hojaTarjetas), 'Estado de Tarjetas');
 
   const hojaMetas = metas.map((m) => ({

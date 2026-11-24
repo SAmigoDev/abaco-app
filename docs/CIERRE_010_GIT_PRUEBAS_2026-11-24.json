@@ -1,0 +1,98 @@
+{
+  "date": "2026-11-24",
+  "base": "8962e5c8686d00309483b36dc487b2ad0008a49a",
+  "stagedScope": "010 only; prior untracked integrations represented as minimal patch",
+  "webSelfContained": false,
+  "workingTreePreserved": true,
+  "candidateTests": {
+    "uiAndEditionPass": 8,
+    "hostedSkipped": 1,
+    "hostedExecuted": false,
+    "authRoutesDependencyOverlay": true,
+    "postgres010Pass": 12,
+    "postgres010DurationMs": 15365.9643
+  },
+  "fingerprints": {
+    "src/lib/saldos.mjs": {
+      "commitContentSha256": "c8a87d79a917ef5bbf78d35f05e0574af650ccfed37af8aa355c79086245ff01",
+      "workingTreeSha256": "c8a87d79a917ef5bbf78d35f05e0574af650ccfed37af8aa355c79086245ff01"
+    },
+    "src/lib/historialCuenta.mjs": {
+      "commitContentSha256": "abedbe68a23ad5dd4a8dbeea19b0229b4e859ed15fa30f98408dff76c3fc0a95",
+      "workingTreeSha256": "abedbe68a23ad5dd4a8dbeea19b0229b4e859ed15fa30f98408dff76c3fc0a95"
+    },
+    "src/lib/datosCuenta.mjs": {
+      "commitContentSha256": "b4e0b4e7cfde67b3524938ccbb3547f3e18f160e3a345052fc038185a212ff20",
+      "workingTreeSha256": "8a2fe0680873a1007a0afde2f9d5e7e4f180445a1b874a18b26ec529ca91e9ba"
+    },
+    "src/lib/exportarDatos.js": {
+      "commitContentSha256": "b37c267b226f437ebe2063246d5c744074390a7efde4e098223ac619c802bb31",
+      "workingTreeSha256": "d81088e8a2e906f9c19517041465fac09300e98e7358b0f75d891eb009a03f9f"
+    },
+    "src/components/ConfiguracionView.jsx": {
+      "commitContentSha256": "d69d36704dbc326c2b44af5e5af90dbdaff5727786cfa518368ebaf782750a08",
+      "workingTreeSha256": "a708ae19eee6dbc3ccc1d9b3bcb527e64b82b53c1cb4afbc675ced5074123a66"
+    },
+    "src/components/DashboardView.jsx": {
+      "commitContentSha256": "b6ba4074f638bb7b29c4028d873840fcc446df5ba48a269e627d9d7c3faa7093",
+      "workingTreeSha256": "623cdb9426035fa969042c2fdc41625d207c1501d971be5a4f40d98467b8ec7d"
+    },
+    "src/components/TarjetaForm.jsx": {
+      "commitContentSha256": "4b4ea48c0ccc0b46dde7997c1363696cacfd1b4b1ae6a95be37848267cc8e659",
+      "workingTreeSha256": "500728ff92b52a918ae38be904ffc357f70f4e824fcab2586f4e262f53bbf1ef"
+    },
+    "src/components/ReporteExport.jsx": {
+      "commitContentSha256": "770d2ca00bdca1730611ecaaa282436bb1667c49f957b4ab494a890645c2fe5e",
+      "workingTreeSha256": "6bb0eb03e737660305df72b0b067e0cffd8f60db38563f0e27de634fa352f866"
+    },
+    "src/components/RegistrarView.jsx": {
+      "commitContentSha256": "f9bf2c56924cafe9dae35ba0af1112d21e8f881c1cf567021b7e54784dd03a15",
+      "workingTreeSha256": "0c5f787bd32775a08ba5e7fcda491b0d66cc9f4b1b6eb8d99951cee70682b895"
+    },
+    "src/components/MovimientoFijoForm.jsx": {
+      "commitContentSha256": "4b5d1dd086d159411e6e9598bde98909b02303fa48341127231ce98c1a8dc28d",
+      "workingTreeSha256": "c68937287c19468e62948e7f88e1023600d6f46604b3ecfd77bb90c38a716839"
+    },
+    "src/app/(app)/registrar/page.js": {
+      "commitContentSha256": "3aff845c52311437d30b29bf7f23b14887ac0bb0e2267e728a0068c997e1273f",
+      "workingTreeSha256": "2f59859f90f783ffd618bf93b53ea25344374e0e6f5cb38ae7b97d160677b354"
+    },
+    "src/app/(app)/cuentas/[id]/page.js": {
+      "commitContentSha256": "6db1b65611fd21a9ad618b5c5cae6717d6fdf0ede36c2846263534151a615177",
+      "workingTreeSha256": "6db1b65611fd21a9ad618b5c5cae6717d6fdf0ede36c2846263534151a615177"
+    },
+    "supabase/migrations/202611230010_archivo_cuentas.sql": {
+      "commitContentSha256": "91d23ac1904bebd6f92dced8b0059cf1efaeff3109d3bda431f1625c6cf97e2c",
+      "workingTreeSha256": "2b9a05b4e7d57c7b31b83373d3a69afb35ed2e2023b064ed4c111b08bba6ade7"
+    },
+    "supabase/tests/auditoria_archivo_cuentas.sql": {
+      "commitContentSha256": "429e5f40594f62486ac998325f9a5763ab2b6137c39b30e5e7a7b199007b621b",
+      "workingTreeSha256": "f1ade192aca935aa5f472babb73b7fa77e551e14fb25f78ed9b9e2fbefa78620"
+    },
+    "tests/integration/cuentas-archivo-postgres.test.mjs": {
+      "commitContentSha256": "1ddd77de4c7af4eadd786dfa1fe85285ce064ce3c66d75830dc877dc7b385793",
+      "workingTreeSha256": "488a477ce4a7b45e13c8c6fb7f9935a2218d1fbc782f1b08c385f30862524be2"
+    },
+    "tests/saldos-archivo.test.mjs": {
+      "commitContentSha256": "a688ff0cc6792d94b189d9d1be056d66e974335d3e4b0f93f1f1b18cf549d5ea",
+      "workingTreeSha256": "0f6e9f2465249e741b5ef5a7e96ccd62a0b3e88ce19f0b5cc923d97de6743a2e"
+    },
+    "scripts/test-libro008-local.ps1": {
+      "commitContentSha256": "ba8049044f1b1de0614f26624d4126ba265159c458c9a469711927707a2275a4",
+      "workingTreeSha256": "ba8049044f1b1de0614f26624d4126ba265159c458c9a469711927707a2275a4"
+    },
+    "tests/integration/cuentas-archivo-hosted.test.mjs": {
+      "commitContentSha256": "86f6878deb55d08b538983d65601006774a248d883935706b11bdc81cab09f8a",
+      "workingTreeSha256": "92cec9db9c480e8b1a8ec2ef8d37f23f0d408539564c84484764c0927a1072a0"
+    },
+    "patches/010_integracion_sobre_trabajo_previo.patch": {
+      "commitContentSha256": "6344a846505ab9c873587e8e455843bbf46a145aec7ccc2270b98e1c92405987",
+      "workingTreeSha256": "6344a846505ab9c873587e8e455843bbf46a145aec7ccc2270b98e1c92405987"
+    },
+    "scripts/staging/preflight-010.mjs": {
+      "commitContentSha256": "04ad85cd1477899e136c7f188d0547c64a569cabecf7422748e7baa8ec8efdee",
+      "workingTreeSha256": "a02baeb80a7fc3e0badf24543d5e71147c075d56638498d7e332a6fcdbcde6cb"
+    }
+  },
+  "fingerprintConvention": "commitContentSha256 hashes exact Git blob bytes; workingTreeSha256 hashes on-disk bytes, including local EOL"
+}

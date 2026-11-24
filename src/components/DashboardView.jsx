@@ -8,6 +8,8 @@ import {
 } from 'recharts';
 import { colorDeCategoria } from '@/lib/categoryColors';
 import ReporteExport from '@/components/ReporteExport';
+import Link from 'next/link';
+import { formatoSaldo, totalSaldos, cuentasActivas } from '@/lib/saldos.mjs';
 
 const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
@@ -27,14 +29,10 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
     (t) => t.tipo_producto === 'credito_nacional' || t.tipo_producto === 'credito_internacional'
   );
 
-  const saldoDisponible = tarjetas
-    .filter((t) => t.tipo_producto === 'cuenta_corriente')
-    .reduce((acc, t) => acc + Number(t.saldo_actual || 0), 0);
-
-  const deudaTotalCredito = tarjetasCredito.reduce(
-    (acc, t) => acc + Number(t.saldo_actual || 0),
-    0
-  );
+  const activas = cuentasActivas(tarjetas);
+  const archivadas = tarjetas.filter(t => t.archivado_at);
+  const saldoDisponible = totalSaldos(tarjetas.filter(t => t.tipo_producto === 'cuenta_corriente' && t.moneda === 'CLP'));
+  const deudaTotalCredito = totalSaldos(tarjetasCredito.filter(t => t.moneda === 'CLP'));
 
   const dataLinea = useMemo(() => {
     const totalesPorMes = Array(12).fill(0);
@@ -120,11 +118,11 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-navy-800 border border-navy-700 rounded-xl p-5">
           <p className="text-navy-400 text-xs mb-1">Saldo disponible (cuentas)</p>
-          <p className="font-mono text-2xl font-semibold text-offwhite">{formatoCLP(saldoDisponible)}</p>
+          <p className="font-mono text-2xl font-semibold text-offwhite">{formatoSaldo(saldoDisponible, 'CLP')}</p>
         </div>
         <div className="bg-navy-800 border border-navy-700 rounded-xl p-5">
           <p className="text-navy-400 text-xs mb-1">Deuda en tarjetas de crédito</p>
-          <p className="font-mono text-2xl font-semibold text-danger">{formatoCLP(deudaTotalCredito)}</p>
+          <p className="font-mono text-2xl font-semibold text-danger">{formatoSaldo(deudaTotalCredito, 'CLP')}</p>
         </div>
         <div className="bg-navy-800 border border-navy-700 rounded-xl p-5">
           <p className="text-navy-400 text-xs mb-1">Gasto de {MESES[mesSeleccionado]}</p>
@@ -135,17 +133,20 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
       <section className="mb-8">
         <h2 className="text-offwhite text-lg font-semibold mb-3">Tus cuentas y tarjetas</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {tarjetas.map((t) => (
+          {activas.map((t) => (
             <div key={t.id} className="bg-navy-800 border border-navy-700 rounded-xl p-4">
-              <p className="text-offwhite text-sm font-medium">{t.alias}</p>
+              <Link href={`/cuentas/${t.id}`} className="text-offwhite text-sm font-medium underline">{t.alias}</Link>
               <p className="text-navy-400 text-xs mb-2">•••• {t.ultimos_digitos}</p>
               <p className="font-mono text-lg text-offwhite">
-                {formatoCLP(t.saldo_actual)} <span className="text-navy-400 text-xs">{t.moneda}</span>
+                {formatoSaldo(t.saldo_actual, t.moneda)} <span className="text-navy-400 text-xs">{t.moneda}</span>
               </p>
             </div>
           ))}
         </div>
       </section>
+
+      {archivadas.length > 0 && <details className="surface mb-8"><summary className="cursor-pointer">Cuentas archivadas ({archivadas.length})</summary><p className="text-navy-400 text-xs my-3">Sus saldos se conservan en los totales y sus movimientos en el historial. No admiten nuevas capturas.</p>{archivadas.map(t => <p key={t.id} className="py-2">{t.alias} · {formatoSaldo(t.saldo_actual, t.moneda)} · {t.moneda} · <Link href={`/cuentas/${t.id}`} className="text-gold underline">Ver movimientos</Link></p>)}</details>}
+      <p className="text-navy-400 text-xs mb-5">Los totales incluyen las cuentas archivadas. Si falta algún saldo, el total se muestra como «Sin saldo definido».</p>
 
       <section className="bg-navy-800 border border-navy-700 rounded-xl p-5 mb-8">
         <h2 className="text-offwhite text-lg font-semibold mb-1">Gasto mensual — {hoy.getFullYear()}</h2>

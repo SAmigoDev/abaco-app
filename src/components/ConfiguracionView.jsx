@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
+import { formatoSaldo } from '@/lib/saldos.mjs';
 import { createClient } from '@/lib/supabase/client';
 import TarjetaForm from '@/components/TarjetaForm';
 import CategoriaForm from '@/components/CategoriaForm';
@@ -26,6 +28,8 @@ export default function ConfiguracionView({
   const [modal, setModal] = useState(null);
   const [confirmando, setConfirmando] = useState(null);
   const [borrando, setBorrando] = useState(false);
+  const archivoEnCurso = useRef(false);
+  const [errorCuenta, setErrorCuenta] = useState(null);
   const [errorCategoria, setErrorCategoria] = useState(null);
   const [guardandoPresupuesto, setGuardandoPresupuesto] = useState(false);
   const supabase = createClient();
@@ -38,12 +42,18 @@ export default function ConfiguracionView({
     setModal(null);
   }
 
-  async function eliminarTarjeta(id) {
-    setBorrando(true);
-    const { error } = await supabase.from('tarjetas').delete().eq('id', id);
-    setBorrando(false);
-    if (!error) setTarjetas((prev) => prev.filter((t) => t.id !== id));
-    setConfirmando(null);
+  async function archivarTarjeta(id) {
+    if (archivoEnCurso.current) return;
+    archivoEnCurso.current = true; setBorrando(true); setErrorCuenta(null);
+    try {
+      const { data, error } = await supabase.rpc('archivar_cuenta', { p_tarjeta: id });
+      if (error) throw error;
+      const cuenta = Array.isArray(data) ? data[0] : data;
+      if (!cuenta?.archivado_at) throw new Error('Archivo no confirmado');
+      setTarjetas(prev => prev.map(t => t.id === id ? cuenta : t));
+      setConfirmando(null);
+    } catch { setErrorCuenta('No se pudo confirmar el archivo. Recarga antes de reintentar; no se ha borrado el historial.'); }
+    finally { archivoEnCurso.current = false; setBorrando(false); }
   }
 
   // ── Categorías ──
@@ -105,29 +115,30 @@ export default function ConfiguracionView({
           </button>
         </div>
 
+        {errorCuenta && <p role="alert" className="text-danger text-sm mb-3">{errorCuenta}</p>}
         {tarjetas.length === 0 ? (
           <p className="text-navy-400 text-sm">No tienes tarjetas registradas todavía.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {tarjetas.map((t) => (
+            {tarjetas.filter(t => !t.archivado_at).map((t) => (
               <div key={t.id} className="bg-navy-800 border border-navy-700 rounded-xl p-4">
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="text-offwhite text-sm font-medium">{t.alias}</p>
-                    <p className="text-navy-400 text-xs">•••• {t.ultimos_digitos} · {ETIQUETA_TIPO[t.tipo_producto]}</p>
+                    <p className="text-navy-400 text-xs">•••• {t.ultimos_digitos} · {ETIQUETA_TIPO[t.tipo_producto]} · {t.moneda}</p><p className="text-sm mt-2">{formatoSaldo(t.saldo_actual, t.moneda)}</p><Link href={`/cuentas/${t.id}`} className="text-gold text-xs underline">Ver movimientos</Link>
                   </div>
                   <div className="flex gap-2">
                     <button onClick={() => setModal({ tipo: 'tarjeta', valor: t })} className="text-navy-400 hover:text-gold text-xs">Editar</button>
-                    <button onClick={() => setConfirmando({ tipo: 'tarjeta', valor: t })} className="text-navy-400 hover:text-danger text-xs">Eliminar</button>
+                    <button onClick={() => setConfirmando({ tipo: 'tarjeta', valor: t })} className="text-navy-400 hover:text-danger text-xs">Archivar</button>
                   </div>
                 </div>
                 {confirmando?.tipo === 'tarjeta' && confirmando.valor.id === t.id && (
                   <div className="mt-3 bg-navy-900 border border-danger rounded-lg p-3">
-                    <p className="text-offwhite text-xs mb-2">¿Eliminar esta tarjeta? No se puede deshacer.</p>
+                    <p className="text-offwhite text-xs mb-2">¿Archivar «{t.alias}»? Conserva su saldo y movimientos. Sus vínculos y credenciales de Atajos se revocarán; los nuevos envíos, incluidos los reintentos con esas credenciales, dejarán de funcionar. Podrás revisar y confirmar movimientos pendientes existentes. No se puede reactivar esta cuenta.</p>
                     <div className="flex gap-2">
                       <button onClick={() => setConfirmando(null)} className="flex-1 py-1.5 rounded-md border border-navy-700 text-navy-400 text-xs">Cancelar</button>
-                      <button onClick={() => eliminarTarjeta(t.id)} disabled={borrando} className="flex-1 py-1.5 rounded-md bg-danger text-offwhite text-xs disabled:opacity-60">
-                        {borrando ? 'Eliminando...' : 'Sí, eliminar'}
+                      <button onClick={() => archivarTarjeta(t.id)} disabled={borrando} className="flex-1 py-1.5 rounded-md bg-danger text-offwhite text-xs disabled:opacity-60">
+                        {borrando ? 'Archivando...' : 'Sí, archivar'}
                       </button>
                     </div>
                   </div>
@@ -137,6 +148,8 @@ export default function ConfiguracionView({
           </div>
         )}
       </section>
+
+      {tarjetas.some(t => t.archivado_at) && <details className="surface mb-10"><summary className="cursor-pointer">Cuentas archivadas ({tarjetas.filter(t => t.archivado_at).length})</summary><p className="text-sm text-navy-400 my-3">Conservan sus movimientos y saldos; no admiten nuevas capturas. Consulta sus movimientos en el resumen.</p>{tarjetas.filter(t => t.archivado_at).map(t => <article key={t.id} className="border border-navy-600 rounded-xl p-4 mt-3"><p className="font-semibold">{t.alias} · {t.moneda}</p><p className="text-sm mt-2">{formatoSaldo(t.saldo_actual, t.moneda)}</p><Link href={`/cuentas/${t.id}`} className="text-gold text-sm underline">Ver movimientos</Link><p className="text-xs text-navy-400 mt-2">Archivada: {new Date(t.archivado_at).toLocaleString('es-CL')}</p></article>)}</details>}
 
       {/* ── Categorías ── */}
       <section className="mb-10">

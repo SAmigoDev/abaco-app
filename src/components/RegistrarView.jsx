@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { cuentasActivas } from '@/lib/saldos.mjs';
 import { parseTexto } from '@/lib/parseTexto';
 import { enviarTransaccion } from '@/lib/transacciones';
 import { agregarTransaccionCola } from '@/lib/indexedDb';
@@ -21,6 +22,7 @@ const FORM_VACIO = {
 };
 
 export default function RegistrarView({ tarjetas, categorias, movimientosFijosIniciales, comprasCuotas }) {
+  const activas = cuentasActivas(tarjetas);
   const [modo, setModo] = useState('puntual'); // 'puntual' | 'fijo'
   const [paso, setPaso] = useState('inicial');
   const [textoPegado, setTextoPegado] = useState('');
@@ -61,7 +63,7 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
 
     if (resultado.exito) {
       const tarjetaCoincidente = resultado.ultimosDigitos
-        ? tarjetas.find((t) => t.ultimos_digitos === resultado.ultimosDigitos)
+        ? activas.find((t) => t.ultimos_digitos === resultado.ultimosDigitos)
         : null;
 
       setForm({
@@ -204,7 +206,7 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
                     </div>
                   </div>
                   <button
-                    disabled={registrandoId === m.id}
+                    disabled={registrandoId === m.id || !activas.some(t => t.id === m.tarjeta_id)}
                     onClick={async () => {
                       setRegistrandoId(m.id);
                       const payload = {
@@ -224,7 +226,7 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
                     }}
                     className="w-full mt-3 py-2 rounded-lg border border-navy-700 text-navy-400 hover:text-gold text-xs font-medium disabled:opacity-60"
                   >
-                    {registrandoId === m.id ? 'Registrando...' : 'Registrar hoy'}
+                    {!activas.some(t => t.id === m.tarjeta_id) ? 'Selecciona una cuenta activa' : registrandoId === m.id ? 'Registrando...' : 'Registrar hoy'}
                   </button>
                 </div>
               ))}
@@ -308,7 +310,7 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
           <select required value={form.tarjetaId} onChange={(e) => actualizarCampo('tarjetaId', e.target.value)}
             className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm mb-3 outline-none focus:border-gold">
             <option value="" disabled>Selecciona una tarjeta</option>
-            {tarjetas.map((t) => <option key={t.id} value={t.id}>{t.alias}</option>)}
+            {activas.map((t) => <option key={t.id} value={t.id}>{t.alias}</option>)}
           </select>
 
           <label className="block text-navy-400 text-xs mb-1">Categoría</label>

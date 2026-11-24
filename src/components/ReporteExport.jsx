@@ -1,5 +1,6 @@
 'use client';
 
+import { formatoSaldo } from '@/lib/saldos.mjs';
 import { useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, pdf } from '@react-pdf/renderer';
 
@@ -19,7 +20,7 @@ function formatoCLP(n) {
   return new Intl.NumberFormat('es-CL').format(n || 0);
 }
 
-function ReporteDocumento({ transacciones, movimientosFijos, tarjetas, metas, mesLabel }) {
+export function ReporteDocumento({ transacciones, movimientosFijos, tarjetas, metas, mesLabel }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -80,8 +81,8 @@ function ReporteDocumento({ transacciones, movimientosFijos, tarjetas, metas, me
         {tarjetas.map((t) => (
           <View style={styles.fila} key={t.id}>
             <Text style={styles.celda}>{t.alias}</Text>
-            <Text style={styles.celda}>{t.tipo_producto}</Text>
-            <Text style={styles.celda}>{formatoCLP(t.saldo_actual)} {t.moneda}</Text>
+            <Text style={styles.celda}>{t.tipo_producto}{t.archivado_at ? ' · Archivada' : ''}</Text>
+            <Text style={styles.celda}>{formatoSaldo(t.saldo_actual, t.moneda)} · {t.moneda}</Text>
             <Text style={styles.celda}>{t.cupo_maximo ? formatoCLP(t.cupo_maximo) : '-'}</Text>
           </View>
         ))}

@@ -1,5 +1,6 @@
 'use client';
 
+import { cuentasActivas } from '@/lib/saldos.mjs';
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -97,7 +98,8 @@ export default function MovimientoFijoForm({ existente = null, tarjetas, categor
       <select value={form.tarjetaId} onChange={(e) => actualizar('tarjetaId', e.target.value)}
         className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm mb-3 outline-none focus:border-gold">
         <option value="">Sin tarjeta asignada</option>
-        {tarjetas.map((t) => <option key={t.id} value={t.id}>{t.alias}</option>)}
+        {tarjetas.filter(t => t.id === form.tarjetaId && t.archivado_at).map(t => <option key={t.id} value={t.id} disabled>{t.alias} · Archivada</option>)}
+        {cuentasActivas(tarjetas).map((t) => <option key={t.id} value={t.id}>{t.alias}</option>)}
       </select>
 
       <label className="block text-navy-400 text-xs mb-1">Categoría</label>

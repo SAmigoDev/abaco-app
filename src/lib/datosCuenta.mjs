@@ -1,3 +1,5 @@
+import { saldoNumerico } from './saldos.mjs';
+
 // Explicit payloads: never spread a snapshot of an existing account into UPDATE.
 export function datosCuenta(form, edicion = false) {
   const credito = ['credito_nacional', 'credito_internacional', 'linea_credito'].includes(form.tipo_producto);
@@ -9,6 +11,6 @@ export function datosCuenta(form, edicion = false) {
     dia_corte: facturacion ? Number(form.dia_corte) || null : null,
     dia_pago: facturacion ? Number(form.dia_pago) || null : null,
   };
-  if (!edicion) datos.saldo_actual = Number(form.saldo_actual) || 0;
+  if (!edicion) datos.saldo_actual = saldoNumerico(form.saldo_actual);
   return datos;
 }

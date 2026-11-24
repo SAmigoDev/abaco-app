@@ -1,0 +1,86 @@
+diff --git a/src/components/AtajosPanel.jsx b/src/components/AtajosPanel.jsx
+index d0c6273..8253d00 100644
+--- a/src/components/AtajosPanel.jsx
++++ b/src/components/AtajosPanel.jsx
+@@ -1,12 +1,15 @@
+ 'use client';
+ 
++import { cuentasActivas } from '@/lib/saldos.mjs';
+ import { useEffect, useState } from 'react';
+ import VinculosAtajosPanel from './VinculosAtajosPanel';
+ import { createClient } from '@/lib/supabase/client';
+ 
+ export default function AtajosPanel({ tarjetas }) {
+   const [integraciones, setIntegraciones] = useState([]);
+-  const [tarjeta, setTarjeta] = useState(tarjetas[0]?.id || '');
++  const activas = cuentasActivas(tarjetas);
++  const [seleccion, setTarjeta] = useState(activas[0]?.id || '');
++  const tarjeta = activas.some(t => t.id === seleccion) ? seleccion : '';
+   const [secreto, setSecreto] = useState('');
+   const [error, setError] = useState('');
+   const [ocupado, setOcupado] = useState(false);
+@@ -56,7 +59,7 @@ export default function AtajosPanel({ tarjetas }) {
+     <div className="flex flex-wrap gap-3 items-end">
+       <label className="flex-1 min-w-48 text-sm">Cuenta para este atajo
+         <select className="field mt-2" value={tarjeta} onChange={e => setTarjeta(e.target.value)}>
+-          {tarjetas.map(t => <option key={t.id} value={t.id}>{t.alias} · {t.moneda}</option>)}
++          <option value="">Selecciona una cuenta activa</option>{activas.map(t => <option key={t.id} value={t.id}>{t.alias} · {t.moneda}</option>)}
+         </select>
+       </label>
+       <button className="primary-button" disabled={!tarjeta || ocupado} onClick={crear}>Crear credencial</button>
+diff --git a/src/components/VinculosAtajosPanel.jsx b/src/components/VinculosAtajosPanel.jsx
+index 0d7ea9f..3889748 100644
+--- a/src/components/VinculosAtajosPanel.jsx
++++ b/src/components/VinculosAtajosPanel.jsx
+@@ -1,4 +1,6 @@
+ 'use client';
++import { cuentasActivas } from '@/lib/saldos.mjs';
++
+ import { useEffect, useRef, useState } from 'react';
+ import { createClient } from '@/lib/supabase/client';
+ const fecha = value => new Date(value).toLocaleString('es-CL', { dateStyle: 'medium', timeStyle: 'short' });
+@@ -13,6 +15,7 @@ function Nombre({ tipo, item, nombre, ocupado, renombrar }) {
+   return <div className="flex flex-wrap items-center gap-3">{editar ? <form className="flex flex-wrap gap-2 w-full" onSubmit={async e => { e.preventDefault(); if (await renombrar(tipo, item.id, valor)) setEditar(false); }}><label className="flex-1 min-w-40">Alias<input aria-label={`Alias de ${nombre}`} className="field mt-1" maxLength={80} value={valor} onChange={e => setValor(e.target.value)} /></label><button disabled={ocupado || !valor.trim()} className="underline">Guardar alias</button><button type="button" disabled={ocupado} onClick={() => setEditar(false)}>Cancelar</button><p className="w-full text-xs text-navy-400">Solo cambia el nombre visible; identidad y destino se conservan.</p></form> : <><h4 className="font-semibold break-words">{nombre}</h4><button className="text-xs underline" disabled={ocupado} onClick={() => { setValor(nombre); setEditar(true); }}>Renombrar</button></>}</div>;
+ }
+ export default function VinculosAtajosPanel({ tarjetas }) {
++  const activas = cuentasActivas(tarjetas);
+   const [estado, setEstado] = useState({ instrumentos: [], vinculos: [], credenciales: [] });
+   const [alias, setAlias] = useState('');
+   const [cuentas, setCuentas] = useState({});
+@@ -89,11 +92,12 @@ export default function VinculosAtajosPanel({ tarjetas }) {
+   function instrumento(i, historico = false) {
+     const vs = estado.vinculos.filter(v => v.instrumento_id === i.id);
+     const revocados = vs.filter(v => v.revocado_at);
+-    const cuenta = cuentas[i.id] || tarjetas[0]?.id || '';
++    const elegida = cuentas[i.id] ?? activas[0]?.id ?? '';
++    const cuenta = activas.some(t => t.id === elegida) ? elegida : '';
+     const existente = vs.some(v => !v.revocado_at && v.tarjeta_id === cuenta);
+     return <article key={i.id} className="rounded-2xl border-2 border-navy-500 bg-navy-950 p-4 sm:p-6 mt-6 shadow-lg">
+       <div className="eyebrow mb-2">Instrumento · {i.tipo}</div><Nombre tipo="instrumento" item={i} nombre={i.alias} ocupado={ocupado} renombrar={renombrar} />{meta(i, i.archivado_at ? `Archivado el ${fecha(i.archivado_at)}` : 'Activo')}
+-      {!historico && <><div className="flex flex-wrap gap-3 items-end mt-5 p-4 border border-navy-600 rounded-xl"><label className="flex-1 min-w-40 text-sm">Cuenta para un nuevo vínculo<select className="field mt-2" value={cuenta} onChange={e => setCuentas(prev => ({ ...prev, [i.id]: e.target.value }))}>{tarjetas.map(t => <option key={t.id} value={t.id}>{t.alias} · {t.moneda}</option>)}</select></label><button className="primary-button" disabled={ocupado || !cuenta || existente} onClick={() => ejecutar('crear_vinculo_captura', { p_instrumento: i.id, p_tarjeta: cuenta })}>Crear vínculo</button>{existente && <p className="text-xs text-navy-400 w-full">Ya existe un vínculo activo hacia esta cuenta; úsalo abajo.</p>}</div>
++      {!historico && <><div className="flex flex-wrap gap-3 items-end mt-5 p-4 border border-navy-600 rounded-xl"><label className="flex-1 min-w-40 text-sm">Cuenta para un nuevo vínculo<select className="field mt-2" value={cuenta} onChange={e => setCuentas(prev => ({ ...prev, [i.id]: e.target.value }))}><option value="">Selecciona una cuenta activa</option>{activas.map(t => <option key={t.id} value={t.id}>{t.alias} · {t.moneda}</option>)}</select></label><button className="primary-button" disabled={ocupado || !cuenta || existente} onClick={() => ejecutar('crear_vinculo_captura', { p_instrumento: i.id, p_tarjeta: cuenta })}>Crear vínculo</button>{existente && <p className="text-xs text-navy-400 w-full">Ya existe un vínculo activo hacia esta cuenta; úsalo abajo.</p>}</div>
+         {vs.filter(v => !v.revocado_at).map(v => vinculo(v, i))}
+         {!vs.some(v => !v.revocado_at) && <p className="text-sm text-navy-400 mt-4">Sin vínculos activos.</p>}
+       </>}
+diff --git a/src/lib/auth/rutas.mjs b/src/lib/auth/rutas.mjs
+index 1d25b12..18bab1d 100644
+--- a/src/lib/auth/rutas.mjs
++++ b/src/lib/auth/rutas.mjs
+@@ -1,7 +1,8 @@
+ // Exact app destinations, never arbitrary URLs or callback/login loops.
++const historialCuenta = /^\/cuentas\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+ const destinos = new Set(['/', '/registrar', '/configuracion', '/auth/actualizar-clave']);
+ export function destinoSeguro(value) {
+-  return typeof value === 'string' && destinos.has(value) ? value : '/';
++  return typeof value === 'string' && (destinos.has(value) || historialCuenta.test(value)) ? value : '/';
+ }
+ 
+ export function destinoAutenticado(estado, siguiente = '/') {
+diff --git a/src/components/ConfiguracionView.jsx b/src/components/ConfiguracionView.jsx
+--- a/src/components/ConfiguracionView.jsx
++++ b/src/components/ConfiguracionView.jsx
+@@ -106,3 +106,3 @@
+       </section>
+-      <AtajosPanel tarjetas={tarjetas} />
++      <AtajosPanel key={tarjetas.map(t => `${t.id}:${t.archivado_at || ''}`).join('|')} tarjetas={tarjetas} />
+ 

@@ -7,7 +7,7 @@ export default async function RegistrarPage() {
 
   const { data: tarjetas } = await supabase
     .from('tarjetas')
-    .select('id, alias, ultimos_digitos, tipo_producto, moneda')
+    .select('id, alias, ultimos_digitos, tipo_producto, moneda, archivado_at')
     .eq('usuario_id', user.id)
     .order('created_at', { ascending: true });
 

@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-23",
+  "baseCommit": "8962e5c8686d00309483b36dc487b2ad0008a49a",
+  "localOnly": true,
+  "remoteMigrationApplied": false,
+  "webDeployed": false,
+  "bookCutoverActivated": false,
+  "cronChanged": false,
+  "syntheticOnly": true,
+  "node": "v24.18.1",
+  "postgres": "18.4",
+  "next": "16.3.0",
+  "tests": {
+    "node": {
+      "pass": 36,
+      "fail": 0,
+      "skipped": 0,
+      "durationMs": 5134.1889
+    },
+    "regression008": {
+      "pass": 13,
+      "fail": 0,
+      "durationMs": 21891.6744
+    },
+    "regression009": {
+      "pass": 23,
+      "fail": 0,
+      "durationMs": 46029.7623
+    },
+    "archive010": {
+      "pass": 12,
+      "fail": 0,
+      "skipped": 0,
+      "durationMs": 14607.3413
+    },
+    "edge": {
+      "pass": 12,
+      "fail": 0,
+      "dependencies": "existing offline DENO_DIR cache"
+    }
+  },
+  "authInSqlTests": "SQL simulation; no hosted JWT/MFA tests in this delivery",
+  "exports": {
+    "xlsxGeneratedAndReadBack": true,
+    "pdfRendered": true,
+    "pdfTextTreeChecked": true
+  },
+  "build": {
+    "passed": true,
+    "webpack": true,
+    "isolatedCopyWithoutEnv": true,
+    "realKeys": false,
+    "sourceMatchesWorkingTree": true,
+    "testOnlyConfig": {
+      "cpus": 1,
+      "workerThreads": false,
+      "webpackBuildWorker": false,
+      "cleanDistDir": false
+    },
+    "smoke": {
+      "login": 200,
+      "historyUnauthenticated": 307,
+      "location": "/login?next=%2Fcuentas%2F12345678-1234-4234-8234-123456789abc",
+      "syntheticConfigOnly": true,
+      "remoteCallsRequested": false
+    }
+  },
+  "eslint": true,
+  "powerShellSyntax": true,
+  "priorUnrelatedFilesPreserved": 141,
+  "sha256": {
+    "src/lib/saldos.mjs": "c8a87d79a917ef5bbf78d35f05e0574af650ccfed37af8aa355c79086245ff01",
+    "src/lib/historialCuenta.mjs": "abedbe68a23ad5dd4a8dbeea19b0229b4e859ed15fa30f98408dff76c3fc0a95",
+    "src/lib/auth/rutas.mjs": "e1293a0662d52038d03968271962a0343c4934221e8c6224bee776a1d7ef7f7b",
+    "src/lib/datosCuenta.mjs": "8a2fe0680873a1007a0afde2f9d5e7e4f180445a1b874a18b26ec529ca91e9ba",
+    "src/lib/exportarDatos.js": "d81088e8a2e906f9c19517041465fac09300e98e7358b0f75d891eb009a03f9f",
+    "src/components/ConfiguracionView.jsx": "a708ae19eee6dbc3ccc1d9b3bcb527e64b82b53c1cb4afbc675ced5074123a66",
+    "src/components/DashboardView.jsx": "623cdb9426035fa969042c2fdc41625d207c1501d971be5a4f40d98467b8ec7d",
+    "src/components/TarjetaForm.jsx": "500728ff92b52a918ae38be904ffc357f70f4e824fcab2586f4e262f53bbf1ef",
+    "src/components/ReporteExport.jsx": "6bb0eb03e737660305df72b0b067e0cffd8f60db38563f0e27de634fa352f866",
+    "src/components/AtajosPanel.jsx": "211616d16529a443f3a8bbd2e2677ad0b8e2ccf4cffb8ebb934f7f0ca601a279",
+    "src/components/VinculosAtajosPanel.jsx": "86b992410b88d1eaf5f623617cea46a1695b99e6156808ff9bd707f7263684ae",
+    "src/components/RegistrarView.jsx": "0c5f787bd32775a08ba5e7fcda491b0d66cc9f4b1b6eb8d99951cee70682b895",
+    "src/components/MovimientoFijoForm.jsx": "c68937287c19468e62948e7f88e1023600d6f46604b3ecfd77bb90c38a716839",
+    "src/app/(app)/registrar/page.js": "2f59859f90f783ffd618bf93b53ea25344374e0e6f5cb38ae7b97d160677b354",
+    "src/app/(app)/cuentas/[id]/page.js": "6db1b65611fd21a9ad618b5c5cae6717d6fdf0ede36c2846263534151a615177",
+    "supabase/migrations/202611230010_archivo_cuentas.sql": "2b9a05b4e7d57c7b31b83373d3a69afb35ed2e2023b064ed4c111b08bba6ade7",
+    "supabase/tests/auditoria_archivo_cuentas.sql": "f1ade192aca935aa5f472babb73b7fa77e551e14fb25f78ed9b9e2fbefa78620",
+    "tests/integration/cuentas-archivo-postgres.test.mjs": "488a477ce4a7b45e13c8c6fb7f9935a2218d1fbc782f1b08c385f30862524be2",
+    "tests/saldos-archivo.test.mjs": "0f6e9f2465249e741b5ef5a7e96ccd62a0b3e88ce19f0b5cc923d97de6743a2e",
+    "scripts/test-libro008-local.ps1": "ba8049044f1b1de0614f26624d4126ba265159c458c9a469711927707a2275a4"
+  }
+}

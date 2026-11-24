@@ -5,7 +5,8 @@ param(
     [ValidateRange(50000, 59999)][int]$Port = 55441,
     [switch]$IncludeVolume,
     [switch]$Include009,
-    [switch]$Include009Performance
+    [switch]$Include009Performance,
+    [switch]$Include010
 )
 
 # Windows, synthetic PostgreSQL only. No npm, Supabase CLI, network API or .env required.
@@ -50,9 +51,13 @@ try {
     Set-Location -LiteralPath $repoRoot
     & $node --test tests/integration/libro-ensayo-postgres.test.mjs
     if ($LASTEXITCODE -ne 0) { throw 'Suite funcional 008 fallida.' }
-    if ($Include009 -or $Include009Performance) {
+    if ($Include009 -or $Include009Performance -or $Include010) {
         & $node --test tests/integration/libro-escritor-postgres.test.mjs
         if ($LASTEXITCODE -ne 0) { throw 'Suite funcional 009 fallida.' }
+    }
+    if ($Include010) {
+        & $node --test tests/integration/cuentas-archivo-postgres.test.mjs
+        if ($LASTEXITCODE -ne 0) { throw 'Suite de archivo de cuentas 010 fallida.' }
     }
     if ($Include009Performance) {
         $env:ABACO_009_PERF_ACK = 'operational-history-only'
