@@ -1,5 +1,7 @@
 # Cierre Git de 010 y preflight de staging — 24 de noviembre de 2026
 
+**Actualización posterior:** el bloqueo de dependencias web descrito aquí quedó resuelto en [el cierre de dependencias y reproducibilidad](./WEB_010_DEPENDENCIAS_Y_REPRODUCIBILIDAD_2026-11-24.md). Lo que sigue conserva el estado histórico del preflight anterior; 010 continúa sin instalar ni desplegar.
+
 ## Estado y alcance
 
 Se prepara un commit dedicado de 010 sobre **8962e5c8686d00309483b36dc487b2ad0008a49a**, sin publicar al remoto. El hash final y los resultados del preflight posterior se registran en el acta local de salida CIERRE_010_Y_PREFLIGHT_2026-11-24.md, fuera del repositorio, para no intentar insertar un commit dentro de su propio contenido.

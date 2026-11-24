@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-24",
+  "baseCommit": "7897a7cb7ac9e42dd4cb1c8975046e019272341d",
+  "authCommit": "5921f224d52e31e36d6fee5a16e25b80c048c60f",
+  "shortcutsCommit": "8f9f63163c4baeb72a25df7450342ed57b347786",
+  "verificationCodeCommit": "65b1ee9405b21df40e70105a6b86e2ed2e863111",
+  "verifiedTree": "47cb3905b53893a45d0f10d6ba79d4c303f521c9",
+  "cleanCheckout": true,
+  "sourceOverlays": false,
+  "untrackedSourceFiles": "",
+  "cleanStatus": "",
+  "envFiles": false,
+  "dependenciesCopied": false,
+  "npmCi": {
+    "pass": true,
+    "packages": 469,
+    "registry": "https://registry.npmjs.org",
+    "lockUnchanged": true
+  },
+  "versions": {
+    "node": "v24.18.1",
+    "npm": "11.16.0",
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "supabase": "2.112.2",
+    "pglite": "0.5.16"
+  },
+  "tests": {
+    "node": {
+      "pass": 36,
+      "fail": 0,
+      "skipped": 0,
+      "durationMs": 4267.7871
+    },
+    "postgres010": {
+      "pass": 12,
+      "fail": 0,
+      "skipped": 0,
+      "durationMs": 20160.7734,
+      "sourceCommit": "8f9f63163c4baeb72a25df7450342ed57b347786",
+      "auth": "SQL simulation; real local PostgreSQL 18.4"
+    }
+  },
+  "build": {
+    "pass": true,
+    "engine": "webpack",
+    "profile": "ABACO_LOCAL_BUILD_CHECK=synthetic-only",
+    "sourceConfig": "versioned; no changes in checkout",
+    "defaultTurbopack": {
+      "pass": false,
+      "reason": "Windows denies junction creation (OS error 5)"
+    },
+    "parallelWebpack": {
+      "pass": false,
+      "reason": "Windows EPERM creating prerender output directories"
+    }
+  },
+  "eslint": true,
+  "nativeResolverAvailable": true,
+  "patchAlreadyIntegrated": true,
+  "smoke": {
+    "login": 200,
+    "historyUnauthenticated": 307,
+    "location": "/login?next=%2Fcuentas%2F12345678-1234-4234-8234-123456789abc",
+    "syntheticConfigOnly": true,
+    "remoteCallsRequested": false
+  },
+  "sourceFiles": 55,
+  "sourceBlobSetSha256": "60b12983e1309071cd549cace23dd8633d518375ab930fda3db4e4197c19d45a",
+  "priorWorkingTreePreserved": true,
+  "onlyIntentionalInPlaceEdits": [
+    "tests/multitarjeta.test.mjs",
+    "docs/CIERRE_010_GIT_Y_PREFLIGHT_2026-11-24.md",
+    "next.config.mjs"
+  ],
+  "remote010Installed": false,
+  "webDeployed": false,
+  "cutoverActivated": false,
+  "pushed": false
+}
