@@ -10,6 +10,7 @@ import { colorDeCategoria } from '@/lib/categoryColors';
 import ReporteExport from '@/components/ReporteExport';
 import Link from 'next/link';
 import { formatoSaldo, totalSaldos, cuentasActivas } from '@/lib/saldos.mjs';
+import MovimientosPanel from '@/components/MovimientosPanel';
 
 const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
 
@@ -22,11 +23,11 @@ function formatoCLP(valor) {
 }
 
 export default function DashboardView({ tarjetas, transacciones, errorTransacciones, metas, movimientosFijos, tasasCambio }) {
-  const hoy = new Date();
-  const [mesSeleccionado, setMesSeleccionado] = useState(hoy.getMonth());
+  const [{ mes: mesActual, anio: anioActual }] = useState(() => ({ mes: new Date().getMonth(), anio: new Date().getFullYear() }));
+  const [mesSeleccionado, setMesSeleccionado] = useState(mesActual);
 
   const tarjetasCredito = tarjetas.filter(
-    (t) => t.tipo_producto === 'credito_nacional' || t.tipo_producto === 'credito_internacional'
+    (t) => t.tipo_producto !== 'cuenta_corriente'
   );
 
   const activas = cuentasActivas(tarjetas);
@@ -37,16 +38,17 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
   const dataLinea = useMemo(() => {
     const totalesPorMes = Array(12).fill(0);
     transacciones.forEach((t) => {
+      if (t.estado_revision === 'pendiente' || new Date(t.fecha).getFullYear() !== anioActual) return;
       const mes = new Date(t.fecha).getMonth();
       totalesPorMes[mes] += Number(t.monto_clp || 0);
     });
-    return MESES.map((mes, i) => ({ mes, total: totalesPorMes[i], mesIndex: i })).slice(0, hoy.getMonth() + 1);
-  }, [transacciones]);
+    return MESES.map((mes, i) => ({ mes, total: totalesPorMes[i], mesIndex: i })).slice(0, mesActual + 1);
+  }, [transacciones, mesActual, anioActual]);
 
   const dataDona = useMemo(() => {
     const porCategoria = {};
     transacciones
-      .filter((t) => new Date(t.fecha).getMonth() === mesSeleccionado)
+      .filter((t) => t.estado_revision !== 'pendiente' && new Date(t.fecha).getMonth() === mesSeleccionado && new Date(t.fecha).getFullYear() === anioActual)
       .forEach((t) => {
         const nombre = t.categorias?.nombre || 'otros';
         porCategoria[nombre] = (porCategoria[nombre] || 0) + Number(t.monto_clp || 0);
@@ -56,11 +58,11 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
       value: valor,
       color: colorDeCategoria(nombre),
     }));
-  }, [transacciones, mesSeleccionado]);
+  }, [transacciones, mesSeleccionado, anioActual]);
 
   const totalMesSeleccionado = dataDona.reduce((acc, d) => acc + d.value, 0);
-  const transaccionesDelMes = transacciones.filter((t) => new Date(t.fecha).getMonth() === mesSeleccionado);
-  const mesLabel = `${MESES[mesSeleccionado]}_${hoy.getFullYear()}`;
+  const transaccionesDelMes = transacciones.filter((t) => t.estado_revision !== 'pendiente' && new Date(t.fecha).getMonth() === mesSeleccionado && new Date(t.fecha).getFullYear() === anioActual);
+  const mesLabel = `${MESES[mesSeleccionado]}_${anioActual}`;
 
   const categoriasUnicas = useMemo(() => {
     const set = new Set(transacciones.map((t) => t.categorias?.nombre || 'otros'));
@@ -68,14 +70,16 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
   }, [transacciones]);
 
   const dataBarras = useMemo(() => {
-    const base = MESES.slice(0, hoy.getMonth() + 1).map((mes) => ({ mes }));
+    const base = MESES.slice(0, mesActual + 1).map((mes) => ({ mes }));
     transacciones.forEach((t) => {
+      if (t.estado_revision === 'pendiente' || new Date(t.fecha).getFullYear() !== anioActual) return;
       const mes = new Date(t.fecha).getMonth();
+      if (!base[mes]) return;
       const nombreCat = t.categorias?.nombre || 'otros';
       base[mes][nombreCat] = (base[mes][nombreCat] || 0) + Number(t.monto_clp || 0);
     });
     return base;
-  }, [transacciones]);
+  }, [transacciones, mesActual, anioActual]);
 
   const resumenSuscripciones = useMemo(() => {
     const suscripciones = movimientosFijos.filter(
@@ -97,9 +101,9 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
   }, [movimientosFijos, tasasCambio]);
 
   return (
-    <main className="min-h-screen bg-navy-900 px-4 py-8 md:px-8">
+    <main className="dashboard-shell min-h-screen bg-navy-900 px-4 py-8 md:px-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-offwhite text-2xl font-semibold">Dashboard</h1>
+        <div><p className="eyebrow">Tu dinero, con claridad</p><h1 className="text-offwhite text-3xl font-semibold mt-2">Resumen financiero</h1></div>
         <ReporteExport
           transacciones={transaccionesDelMes}
           movimientosFijos={movimientosFijos}
@@ -107,6 +111,11 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
           metas={metas}
           mesLabel={mesLabel}
         />
+      </div>
+
+      <div className="overview-banner mb-8">
+        <div><p className="eyebrow">Un hábito pequeño. Una visión completa.</p><p className="text-lg mt-2">Registra el momento. Entiende tu mes.</p><p className="text-navy-400 text-sm mt-2">{transacciones.filter(t => t.estado_revision === 'pendiente').length} movimientos por revisar · {activas.length} cuentas activas</p></div>
+        <Link href="/registrar" className="primary-button">+ Registrar gasto</Link>
       </div>
 
       {errorTransacciones && (
@@ -117,11 +126,11 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
 
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="bg-navy-800 border border-navy-700 rounded-xl p-5">
-          <p className="text-navy-400 text-xs mb-1">Saldo disponible (cuentas)</p>
+          <p className="text-navy-400 text-xs mb-1">Disponible en cuentas · CLP</p>
           <p className="font-mono text-2xl font-semibold text-offwhite">{formatoSaldo(saldoDisponible, 'CLP')}</p>
         </div>
         <div className="bg-navy-800 border border-navy-700 rounded-xl p-5">
-          <p className="text-navy-400 text-xs mb-1">Deuda en tarjetas de crédito</p>
+          <p className="text-navy-400 text-xs mb-1">Deuda de crédito y líneas · CLP</p>
           <p className="font-mono text-2xl font-semibold text-danger">{formatoSaldo(deudaTotalCredito, 'CLP')}</p>
         </div>
         <div className="bg-navy-800 border border-navy-700 rounded-xl p-5">
@@ -134,12 +143,14 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
         <h2 className="text-offwhite text-lg font-semibold mb-3">Tus cuentas y tarjetas</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {activas.map((t) => (
-            <div key={t.id} className="bg-navy-800 border border-navy-700 rounded-xl p-4">
+            <div key={t.id} className="account-card bg-navy-800 border border-navy-700 rounded-xl p-4">
               <Link href={`/cuentas/${t.id}`} className="text-offwhite text-sm font-medium underline">{t.alias}</Link>
               <p className="text-navy-400 text-xs mb-2">•••• {t.ultimos_digitos}</p>
+              <p className="text-xs text-gold mb-4">{t.tipo_producto === 'cuenta_corriente' ? 'Saldo de cuenta' : 'Deuda utilizada'}</p>
               <p className="font-mono text-lg text-offwhite">
                 {formatoSaldo(t.saldo_actual, t.moneda)} <span className="text-navy-400 text-xs">{t.moneda}</span>
               </p>
+              {t.tipo_producto !== 'cuenta_corriente' && <p className="text-navy-400 text-xs mt-2">Cupo: {t.cupo_maximo == null ? 'Sin definir' : new Intl.NumberFormat('es-CL', { style: 'currency', currency: t.moneda }).format(t.cupo_maximo)} · Pago: {t.dia_pago ? `día ${t.dia_pago}` : 'sin fecha'}</p>}
             </div>
           ))}
         </div>
@@ -148,9 +159,12 @@ export default function DashboardView({ tarjetas, transacciones, errorTransaccio
       {archivadas.length > 0 && <details className="surface mb-8"><summary className="cursor-pointer">Cuentas archivadas ({archivadas.length})</summary><p className="text-navy-400 text-xs my-3">Sus saldos se conservan en los totales y sus movimientos en el historial. No admiten nuevas capturas.</p>{archivadas.map(t => <p key={t.id} className="py-2">{t.alias} · {formatoSaldo(t.saldo_actual, t.moneda)} · {t.moneda} · <Link href={`/cuentas/${t.id}`} className="text-gold underline">Ver movimientos</Link></p>)}</details>}
       <p className="text-navy-400 text-xs mb-5">Los totales incluyen las cuentas archivadas. Si falta algún saldo, el total se muestra como «Sin saldo definido».</p>
 
+      <MovimientosPanel transacciones={transacciones} tarjetas={tarjetas} />
+
       <section className="bg-navy-800 border border-navy-700 rounded-xl p-5 mb-8">
-        <h2 className="text-offwhite text-lg font-semibold mb-1">Gasto mensual — {hoy.getFullYear()}</h2>
+        <h2 className="text-offwhite text-lg font-semibold mb-1">Gasto mensual — {anioActual}</h2>
         <p className="text-navy-400 text-xs mb-4">Haz clic en un mes para ver su detalle abajo.</p>
+        <label className="text-sm text-navy-400 block mb-4">Mes del detalle <select className="field inline-block w-auto ml-2" value={mesSeleccionado} onChange={e => setMesSeleccionado(Number(e.target.value))}>{MESES.slice(0, mesActual + 1).map((mes,i) => <option key={mes} value={i}>{mes}</option>)}</select></label>
         <ResponsiveContainer width="100%" height={220}>
           <LineChart
             data={dataLinea}

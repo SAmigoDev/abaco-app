@@ -29,9 +29,9 @@ export default async function DashboardPage() {
 
   const { data: transacciones, error: errorTransacciones } = await supabase
     .from('transacciones')
-    .select('id, monto_clp, comercio, fecha, categoria_id, categorias(nombre, icono)')
+    .select('id, tarjeta_id, monto_original, moneda_original, monto_clp, comercio, fecha, origen, estado_revision, motivo_revision, categoria_id, categorias(nombre, icono)')
     .eq('usuario_id', user.id)
-    .gte('fecha', inicioAnio)
+    .or(`fecha.gte.${inicioAnio},estado_revision.eq.pendiente`)
     .order('fecha', { ascending: true });
 
   const { data: metas } = await supabase

@@ -58,6 +58,7 @@ function promesaDeRequest(request) {
  * `payload` debe ser el mismo objeto que espera POST /transacciones (§6).
  */
 export async function agregarTransaccionCola(payload) {
+  payload.evento_id ||= crypto.randomUUID();
   const db = await abrirDB();
   const registro = {
     idLocal: crypto.randomUUID(),
@@ -144,6 +145,11 @@ export async function procesarColaOffline(enviarFn) {
     const pendientes = await obtenerColaPendiente();
 
     for (const registro of pendientes) {
+      // Upgrade old queue entries once, persisting the ID before any network call.
+      if (!registro.payload.evento_id) {
+        registro.payload.evento_id = registro.idLocal;
+        await actualizarRegistroCola(registro.idLocal, r => { r.payload.evento_id = registro.idLocal; });
+      }
       let resultado;
       try {
         resultado = await enviarFn(registro.payload);

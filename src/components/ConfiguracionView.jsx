@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import TarjetaForm from '@/components/TarjetaForm';
 import CategoriaForm from '@/components/CategoriaForm';
 import MetaAhorroForm from '@/components/MetaAhorroForm';
+import AtajosPanel from '@/components/AtajosPanel';
 import MfaPanel from '@/components/auth/MfaPanel';
 
 const ETIQUETA_TIPO = {
@@ -113,6 +114,7 @@ export default function ConfiguracionView({
         <a href="/auth/actualizar-clave" className="text-gold underline text-sm block mb-6">Crear o cambiar mi contraseña</a>
         <MfaPanel estadoInicial={seguridadInicial} gestion siguiente="/configuracion" />
       </section>
+      <AtajosPanel key={tarjetas.map(t => `${t.id}:${t.archivado_at || ''}`).join('|')} tarjetas={tarjetas} />
 
       {/* ── Tarjetas ── */}
       <section className="mb-10">

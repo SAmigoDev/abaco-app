@@ -1,13 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import { cuentasActivas } from '@/lib/saldos.mjs';
+import { useRef, useState } from 'react';
 import { parseTexto } from '@/lib/parseTexto';
 import { enviarTransaccion } from '@/lib/transacciones';
 import { agregarTransaccionCola } from '@/lib/indexedDb';
 import MovimientoFijoForm from '@/components/MovimientoFijoForm';
 import SimuladorCuotas from '@/components/SimuladorCuotas';
-import { createClient } from '@/lib/supabase/client';
 import MisCuotas from '@/components/MisCuotas';
 
 function ahoraISOLocal() {
@@ -24,14 +23,13 @@ const FORM_VACIO = {
 export default function RegistrarView({ tarjetas, categorias, movimientosFijosIniciales, comprasCuotas }) {
   const activas = cuentasActivas(tarjetas);
   const [modo, setModo] = useState('puntual'); // 'puntual' | 'fijo'
-  const [paso, setPaso] = useState('inicial');
+  const [paso, setPaso] = useState('formulario');
   const [textoPegado, setTextoPegado] = useState('');
   const [analizando, setAnalizando] = useState(false);
   const [form, setForm] = useState(FORM_VACIO);
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState(null);
   const [mensajeExito, setMensajeExito] = useState(null);
-  const [modalLineaCredito, setModalLineaCredito] = useState(null);
   const [movimientosFijos, setMovimientosFijos] = useState(movimientosFijosIniciales);
   const [modalFijo, setModalFijo] = useState(null);
   const [registrandoId, setRegistrandoId] = useState(null);
@@ -39,20 +37,24 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
   const [numCuotas, setNumCuotas] = useState('');
   const [conoceTasaCuotas, setConoceTasaCuotas] = useState(false);
   const [tasaCuotas, setTasaCuotas] = useState('');
+  const evento = useRef(null);
+  const eventosFijos = useRef({});
 
   function actualizarCampo(campo, valor) {
+    evento.current = null;
     setForm((prev) => ({ ...prev, [campo]: valor }));
   }
 
   function reiniciar() {
-    setForm(FORM_VACIO);
+    evento.current = null;
+    setForm({ ...FORM_VACIO, fecha: ahoraISOLocal() });
     setTextoPegado('');
     setError(null);
     setEsCuotas(false);
     setNumCuotas('');
     setConoceTasaCuotas(false);
     setTasaCuotas('');
-    setPaso('inicial');
+    setPaso('formulario');
   }
 
   async function analizarTexto() {
@@ -69,7 +71,7 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
       setForm({
         monto: resultado.monto,
         comercio: resultado.comercio || '',
-        fecha: resultado.fecha ? resultado.fecha.slice(0, 16) : ahoraISOLocal(),
+        fecha: resultado.fecha ? (() => { const d = new Date(resultado.fecha); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0, 16); })() : ahoraISOLocal(),
         moneda: resultado.moneda || 'CLP',
         tarjetaId: tarjetaCoincidente?.id || '',
         categoriaId: '',
@@ -86,9 +88,13 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
     setPaso('formulario');
   }
 
-  function construirPayload(autorizado) {
+  function construirPayload() {
+    evento.current ||= crypto.randomUUID();
     const montoNumerico = Number(form.monto);
     return {
+      evento_id: evento.current,
+      numCuotas: esCuotas ? Number(numCuotas) : undefined,
+      tasaCuotas: esCuotas && conoceTasaCuotas ? Number(tasaCuotas) : undefined,
       tarjetaId: form.tarjetaId,
       monto: form.moneda === 'CLP' ? Math.round(montoNumerico) : montoNumerico,
       moneda: form.moneda,
@@ -96,15 +102,14 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
       fecha: new Date(form.fecha).toISOString(),
       origen: form.origen,
       categoriaId: form.categoriaId || undefined,
-      autorizacionLineaCredito: autorizado,
     };
   }
 
-  async function confirmarGasto(e, autorizado = false) {
+  async function confirmarGasto(e) {
     e?.preventDefault();
     setError(null);
     setGuardando(true);
-    const payload = construirPayload(autorizado);
+    const payload = construirPayload();
 
     if (!navigator.onLine) {
       await agregarTransaccionCola(payload);
@@ -118,31 +123,14 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
     setGuardando(false);
 
     if (resultado.ok) {
-      if (esCuotas && numCuotas) {
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        await supabase.from('compras_cuotas').insert({
-          usuario_id: user.id,
-          transaccion_id: resultado.data?.id || null,
-          tarjeta_id: form.tarjetaId,
-          comercio: form.comercio,
-          monto_total: Number(form.monto),
-          num_cuotas: Number(numCuotas),
-          monto_cuota: Number(form.monto) / Number(numCuotas),
-          fecha_primera_cuota: form.fecha.slice(0, 10),
-          tasa_interes_mensual: conoceTasaCuotas ? Number(tasaCuotas) : null,
-        });
-      }
-      setMensajeExito('Gasto registrado correctamente.');
+      setMensajeExito(resultado.data?.estado_revision === 'pendiente'
+        ? 'Gasto guardado para revisión. No se modificó el saldo; revísalo en el resumen.'
+        : 'Gasto registrado correctamente.');
       reiniciar();
       return;
     }
-    if (resultado.status === 402) {
-      setModalLineaCredito(resultado.data);
-      return;
-    }
     if (resultado.status === 409) {
-      setError('Ya existe un gasto igual registrado en los últimos 5 minutos.');
+      setError('Este evento ya fue enviado con otros datos. Revisa el resumen antes de registrarlo nuevamente.');
       return;
     }
     setError(resultado.data?.error || 'No se pudo registrar el gasto. Intenta de nuevo.');
@@ -151,6 +139,8 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
   return (
     <main className="min-h-screen bg-navy-900 px-4 py-8 md:px-8 max-w-2xl mx-auto">
       <h1 className="text-offwhite text-2xl font-semibold mb-4">Registrar</h1>
+      <p className="text-navy-400 text-sm mb-6">Captura un gasto en segundos. Puedes importar los datos desde un mensaje o usar Atajos desde Configuración.</p>
+      {modo === 'puntual' && <button className="text-gold text-sm underline mb-5" onClick={() => setPaso(paso === 'inicial' ? 'formulario' : 'inicial')}>{paso === 'inicial' ? 'Volver al formulario' : 'Importar SMS o correo'}</button>}
 
       <div className="flex gap-1 mb-6 bg-navy-800 border border-navy-700 rounded-lg p-1 w-fit">
         <button onClick={() => { setModo('puntual'); reiniciar(); }}
@@ -206,10 +196,12 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
                     </div>
                   </div>
                   <button
-                    disabled={registrandoId === m.id || !activas.some(t => t.id === m.tarjeta_id)}
+                    disabled={registrandoId === m.id || m.tipo === 'ingreso' || !activas.some(t => t.id === m.tarjeta_id)}
                     onClick={async () => {
                       setRegistrandoId(m.id);
-                      const payload = {
+                      const payload = eventosFijos.current[m.id] ||= {
+                        evento_id: crypto.randomUUID(),
+                        tipo: m.tipo,
                         tarjetaId: m.tarjeta_id,
                         monto: Number(m.monto),
                         moneda: m.moneda,
@@ -222,11 +214,12 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
                         ? await enviarTransaccion(payload)
                         : (await agregarTransaccionCola(payload), { ok: true });
                       setRegistrandoId(null);
-                      setMensajeExito(resultado.ok ? `"${m.nombre}" registrado hoy.` : 'No se pudo registrar. Intenta de nuevo.');
+                      if (resultado.ok) delete eventosFijos.current[m.id];
+                      setMensajeExito(resultado.ok ? (resultado.data?.estado_revision === 'pendiente' ? `"${m.nombre}" guardado para revisión, sin modificar el saldo.` : `"${m.nombre}" registrado hoy.`) : 'No se pudo registrar. Intenta de nuevo.');
                     }}
                     className="w-full mt-3 py-2 rounded-lg border border-navy-700 text-navy-400 hover:text-gold text-xs font-medium disabled:opacity-60"
                   >
-                    {!activas.some(t => t.id === m.tarjeta_id) ? 'Selecciona una cuenta activa' : registrandoId === m.id ? 'Registrando...' : 'Registrar hoy'}
+                    {m.tipo === 'ingreso' ? 'Registro de ingresos pendiente de soporte' : !activas.some(t => t.id === m.tarjeta_id) ? 'Selecciona una cuenta activa' : registrandoId === m.id ? 'Registrando...' : 'Registrar hoy'}
                   </button>
                 </div>
               ))}
@@ -276,29 +269,29 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
       )}
 
       {modo === 'puntual' && paso === 'formulario' && (
-        <form onSubmit={(e) => confirmarGasto(e, false)} className="bg-navy-800 border border-navy-700 rounded-xl p-6">
+        <form onSubmit={(e) => confirmarGasto(e)} className="bg-navy-800 border border-navy-700 rounded-xl p-6">
           <p className="text-navy-400 text-xs mb-4">
             {form.origen === 'manual' ? 'Completa los datos del gasto.' : 'Revisa que los datos detectados sean correctos.'}
           </p>
 
-          <label className="block text-navy-400 text-xs mb-1">Monto ({form.moneda})</label>
-          <input required type="number" step="0.01" value={form.monto}
+          <label htmlFor="registro-monto" className="block text-navy-400 text-xs mb-1">Monto ({form.moneda})</label>
+          <input id="registro-monto" required type="number" min="0.01" step="0.01" value={form.monto}
             onChange={(e) => actualizarCampo('monto', e.target.value)}
             className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite font-mono text-sm mb-3 outline-none focus:border-gold" />
 
-          <label className="block text-navy-400 text-xs mb-1">Comercio</label>
-          <input required value={form.comercio} onChange={(e) => actualizarCampo('comercio', e.target.value)}
+          <label htmlFor="registro-comercio" className="block text-navy-400 text-xs mb-1">Comercio</label>
+          <input id="registro-comercio" required value={form.comercio} onChange={(e) => actualizarCampo('comercio', e.target.value)}
             className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm mb-3 outline-none focus:border-gold" />
 
           <div className="flex gap-3 mb-3">
             <div className="flex-1">
-              <label className="block text-navy-400 text-xs mb-1">Fecha y hora</label>
-              <input required type="datetime-local" value={form.fecha} onChange={(e) => actualizarCampo('fecha', e.target.value)}
+              <label htmlFor="registro-fecha" className="block text-navy-400 text-xs mb-1">Fecha y hora</label>
+              <input id="registro-fecha" required type="datetime-local" value={form.fecha} onChange={(e) => actualizarCampo('fecha', e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm outline-none focus:border-gold" />
             </div>
             <div className="w-28">
-              <label className="block text-navy-400 text-xs mb-1">Moneda</label>
-              <select value={form.moneda} onChange={(e) => actualizarCampo('moneda', e.target.value)}
+              <label htmlFor="registro-moneda" className="block text-navy-400 text-xs mb-1">Moneda</label>
+              <select id="registro-moneda" value={form.moneda} onChange={(e) => actualizarCampo('moneda', e.target.value)}
                 className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm outline-none focus:border-gold">
                 <option value="CLP">CLP</option>
                 <option value="USD">USD</option>
@@ -306,17 +299,17 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
             </div>
           </div>
 
-          <label className="block text-navy-400 text-xs mb-1">Tarjeta</label>
-          <select required value={form.tarjetaId} onChange={(e) => actualizarCampo('tarjetaId', e.target.value)}
+          <label htmlFor="registro-tarjeta" className="block text-navy-400 text-xs mb-1">Tarjeta</label>
+          <select id="registro-tarjeta" required value={form.tarjetaId} onChange={(e) => actualizarCampo('tarjetaId', e.target.value)}
             className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm mb-3 outline-none focus:border-gold">
             <option value="" disabled>Selecciona una tarjeta</option>
             {activas.map((t) => <option key={t.id} value={t.id}>{t.alias}</option>)}
           </select>
 
-          <label className="block text-navy-400 text-xs mb-1">Categoría</label>
-          <select value={form.categoriaId} onChange={(e) => actualizarCampo('categoriaId', e.target.value)}
+          <label htmlFor="registro-categoria" className="block text-navy-400 text-xs mb-1">Categoría</label>
+          <select id="registro-categoria" value={form.categoriaId} onChange={(e) => actualizarCampo('categoriaId', e.target.value)}
             className="w-full px-3 py-2 rounded-lg border border-navy-700 bg-navy-900 text-offwhite text-sm mb-4 outline-none focus:border-gold">
-            <option value="">Sin categoría (se asigna “otros”)</option>
+            <option value="">Sin categoría (puedes revisarla después)</option>
             {categorias.map((c) => <option key={c.id} value={c.id}>{c.icono} {c.nombre}</option>)}
           </select>
 
@@ -359,23 +352,7 @@ export default function RegistrarView({ tarjetas, categorias, movimientosFijosIn
       {modo === 'simulador' && <SimuladorCuotas />}
       {modo === 'cuotas' && <MisCuotas compras={comprasCuotas} />}
 
-      {modalLineaCredito && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center px-4 z-50">
-          <div className="w-full max-w-sm bg-navy-800 border border-navy-700 rounded-xl p-6">
-            <h2 className="text-offwhite text-lg font-semibold mb-2">Saldo insuficiente</h2>
-            <p className="text-navy-400 text-sm mb-5">{modalLineaCredito.mensajeUsuario}</p>
-            <div className="flex gap-3">
-              <button onClick={() => setModalLineaCredito(null)} className="flex-1 py-2.5 rounded-lg border border-navy-700 text-navy-400 font-medium text-sm">
-                Cancelar
-              </button>
-              <button onClick={() => { setModalLineaCredito(null); confirmarGasto(null, true); }}
-                className="flex-1 py-2.5 rounded-lg bg-gold text-navy-900 font-semibold text-sm">
-                Usar línea de crédito
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
     </main>
   );
 }
