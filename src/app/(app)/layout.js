@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase/server';
+import { exigirSesion } from '@/lib/auth/server';
 import Navbar from '@/components/Navbar';
 import SyncManager from '@/components/SyncManager';
 import BloqueoAcceso from '@/components/BloqueoAcceso';
 
 export default async function AppLayout({ children }) {
-  const supabase = await createClient();
+  const { supabase } = await exigirSesion();
   const { data: { session } } = await supabase.auth.getSession();
 
   let verificacion = { acceso: true };

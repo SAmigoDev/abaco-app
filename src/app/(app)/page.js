@@ -1,9 +1,9 @@
-import { createClient } from '@/lib/supabase/server';
+import { exigirSesion } from '@/lib/auth/server';
 import OnboardingWizard from '@/components/OnboardingWizard';
 import DashboardView from '@/components/DashboardView';
 
 export default async function DashboardPage() {
-  const supabase = await createClient();
+  const { supabase } = await exigirSesion('/');
   const { data: { user } } = await supabase.auth.getUser();
   const { data: tasasCambio } = await supabase.from('tasas_cambio').select('moneda, valor');
 

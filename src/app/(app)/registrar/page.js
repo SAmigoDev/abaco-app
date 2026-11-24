@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase/server';
+import { exigirSesion } from '@/lib/auth/server';
 import RegistrarView from '@/components/RegistrarView';
 
 export default async function RegistrarPage() {
-  const supabase = await createClient();
+  const { supabase } = await exigirSesion('/registrar');
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: tarjetas } = await supabase

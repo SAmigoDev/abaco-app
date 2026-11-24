@@ -1,9 +1,9 @@
 // src/app/(app)/configuracion/page.js
-import { createClient } from '@/lib/supabase/server';
+import { exigirSesion } from '@/lib/auth/server';
 import ConfiguracionView from '@/components/ConfiguracionView';
 
 export default async function ConfiguracionPage() {
-  const supabase = await createClient();
+  const { supabase, estado } = await exigirSesion('/configuracion');
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: tarjetas } = await supabase
@@ -32,6 +32,7 @@ export default async function ConfiguracionPage() {
 
   return (
     <ConfiguracionView
+      seguridadInicial={estado}
       tarjetasIniciales={tarjetas || []}
       categoriasIniciales={categorias || []}
       presupuestoActivoInicial={perfil?.regla_presupuesto_activa || false}

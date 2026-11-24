@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import TarjetaForm from '@/components/TarjetaForm';
 import CategoriaForm from '@/components/CategoriaForm';
 import MetaAhorroForm from '@/components/MetaAhorroForm';
+import MfaPanel from '@/components/auth/MfaPanel';
 
 const ETIQUETA_TIPO = {
   cuenta_corriente: 'Cuenta Corriente',
@@ -20,6 +21,7 @@ export default function ConfiguracionView({
   categoriasIniciales,
   presupuestoActivoInicial,
   metasIniciales,
+  seguridadInicial,
 }) {
   const [tarjetas, setTarjetas] = useState(tarjetasIniciales);
   const [categorias, setCategorias] = useState(categoriasIniciales);
@@ -105,6 +107,12 @@ export default function ConfiguracionView({
   return (
     <main className="min-h-screen bg-navy-900 px-4 py-8 md:px-8 max-w-5xl mx-auto">
       <h1 className="text-offwhite text-2xl font-semibold mb-6">Configuración</h1>
+      <section className="surface mb-10" aria-labelledby="seguridad-titulo">
+        <p className="eyebrow">Protege tu cuenta</p>
+        <h2 id="seguridad-titulo" className="text-xl font-semibold mt-2 mb-4">Contraseña y autenticador</h2>
+        <a href="/auth/actualizar-clave" className="text-gold underline text-sm block mb-6">Crear o cambiar mi contraseña</a>
+        <MfaPanel estadoInicial={seguridadInicial} gestion siguiente="/configuracion" />
+      </section>
 
       {/* ── Tarjetas ── */}
       <section className="mb-10">
@@ -248,6 +256,9 @@ export default function ConfiguracionView({
             <p className="text-navy-400 text-xs mt-1">50% gastos libres · 30% gastos fijos · 20% ahorro</p>
           </div>
           <button
+            role="switch"
+            aria-checked={presupuestoActivo}
+            aria-label="Distribuir mi sueldo en billeteras virtuales"
             onClick={alternarPresupuesto}
             disabled={guardandoPresupuesto}
             className={`relative w-12 h-6 p-0 rounded-full transition-colors ${presupuestoActivo ? 'bg-gold' : 'bg-navy-700'}`}

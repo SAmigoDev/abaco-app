@@ -1,47 +1,49 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { navegarTrasAutenticacion } from '@/lib/auth/navegacion';
 import { createClient } from '@/lib/supabase/client';
 
 const ENLACES = [
-  { href: '/', label: 'Dashboard' },
+  { href: '/', label: 'Resumen' },
   { href: '/registrar', label: 'Registrar' },
   { href: '/configuracion', label: 'Configuración' },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
+  const [error, setError] = useState('');
   const supabase = createClient();
 
   async function cerrarSesion() {
-    await supabase.auth.signOut();
-    router.push('/login');
-    router.refresh();
+    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    if (error) { setError('No se pudo cerrar la sesión. Intenta nuevamente.'); return; }
+    navegarTrasAutenticacion('/login');
   }
 
   return (
-    <nav className="border-b border-navy-700 bg-navy-800">
-      <div className="max-w-5xl mx-auto px-4 md:px-8 flex items-center justify-between h-14">
-        <span className="text-offwhite font-semibold">Ábaco</span>
-        <div className="flex gap-1">
+    <nav className="abaco-nav" aria-label="Navegación principal">
+      <div className="abaco-nav-inner">
+        <Link href="/" className="abaco-brand">á<span>·</span>baco</Link>
+        <div className="nav-links">
           {ENLACES.map((e) => (
             <Link
               key={e.href}
               href={e.href}
               prefetch={false}
-              className={`px-3 py-1.5 rounded-lg text-sm ${
-                pathname === e.href ? 'bg-navy-700 text-offwhite' : 'text-navy-400 hover:text-offwhite'
-              }`}
+              aria-current={pathname === e.href ? 'page' : undefined}
+              className="nav-link"
             >
               {e.label}
             </Link>
           ))}
         </div>
-        <button onClick={cerrarSesion} className="text-navy-400 hover:text-danger text-sm">
+        <button onClick={cerrarSesion} className="nav-logout">
           Cerrar sesión
         </button>
+        {error && <p role="alert" className="text-danger text-xs">{error}</p>}
       </div>
     </nav>
   );
